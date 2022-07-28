@@ -33,7 +33,7 @@ for x in File:
 
     CleanedOutputs.append(NumString)
 
-    FileID.append(start+(count*10))
+    #FileID.append(start+(count*10))
 
     
 
@@ -55,13 +55,12 @@ startval = CleanedOutputs[1]
 
 endindex = 607
 endval = CleanedOutputs[endindex]
-noofpoints = 10
+noofpoints = 150
 
 initialtimestep = (endval - startval)/noofpoints
 listofpoints = []
 
-#print(CleanedOutputs)
-print(initialtimestep)
+
 
 listOfTimesteps = []
 listofnumbers = []
@@ -72,15 +71,16 @@ for i in range(noofpoints): #Creates a temporary timestep that then gets added t
     
     listofnumbers.append(startval+listOfTimesteps[i])
 
-print(listOfTimesteps)
 
 
 
-for i in range(len(listOfTimesteps)): #Finds the value that's closest in the file to the given timestep
+for i in range(len(listOfTimesteps)): #Finds the value that's closest in the file to the given timestep and gives its val
+    closestval = min(enumerate(CleanedOutputs), key=lambda x:abs(x[1]-(listofnumbers[i])))
+    FileID.append(4000+(10*closestval[0]))
     
-    closestval = min(CleanedOutputs, key=lambda x:abs(x-(listofnumbers[i])))
-    print(closestval)
-    #print(CleanedOutputs.index(closest)
+print(FileID)
+
+
 print("git test woweeee!")
 # for i in range (5):
 #     closestval = 99999999999999

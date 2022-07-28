@@ -81,7 +81,7 @@ for i in range(len(listOfTimesteps)): #Finds the value that's closest in the fil
     closestval = min(CleanedOutputs, key=lambda x:abs(x-(listofnumbers[i])))
     print(closestval)
     #print(CleanedOutputs.index(closest)
-
+print("git test woweeee!")
 # for i in range (5):
 #     closestval = 99999999999999
 #     timestep = initialtimestep*i

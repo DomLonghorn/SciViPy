@@ -1,0 +1,13 @@
+def closest(list, Number):
+    aux = []
+    for valor in list:
+        aux.append(abs(Number-valor))
+
+    return aux.index(min(aux))
+
+test =[1,66,43,22,87.5,101000000]
+
+
+x = 52
+
+print(closest(test, x))

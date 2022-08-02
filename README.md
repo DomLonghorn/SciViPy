@@ -9,3 +9,5 @@ JOREK_VIS_SCRIPT:
 Timestep_Calculator:
     Takes a .txt file containing the timesteps for a given file (in this instance the JOREK data) and outputs a list of equitemporal timesteps for a chosen number of points
 BOUT++ Scripts are still heavily WIP and are dependant on people from within the UKAEA to create interpolaition so data can be understood and outputted
+
+Git branch test

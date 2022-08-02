@@ -6,21 +6,20 @@ from numpy import Infinity
 
 File = open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r')
 with open(r"/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r') as fp:
-# for i in File:
-#     print(i)
+
 
     FLength = len(fp.readlines())
 
     CleanedOutputs = []
     FileID = []
-# print(len(CleanedOutputs)) 
-Range = 607
 
-count=0
-start = 4000
+Range = 607 #The number of time steps to read from a file
+count=0 #Incorporates significanrt figures (see for loop below)
+start = 4000 #Initial value to read
+
+
 for x in File:
     FullString = x
-   # print(count)
 
     StringToCut = FullString[0:14]
     FinalString = FullString.replace(StringToCut, "")  #Trims the data into a floating point format to be used in numerical calculations
@@ -29,35 +28,20 @@ for x in File:
     NumString = float(StringToConvert)
 
     if count>=553:
-        NumString = NumString * 10
+        NumString = NumString * 10 #Used to handle the difference in significant figures within the dataset (probably a more general solution)
 
     CleanedOutputs.append(NumString)
-
-    #FileID.append(start+(count*10))
-
-    
-
-
-    #print(CleanedOutputs[count])
     count+=1
         
-File.close()
-#print(CleanedOutputs)
-DifferencesList = []
-    
-for i in range(len(CleanedOutputs)-1):
-    Difference = CleanedOutputs[i+1] - CleanedOutputs[i]
-    DifferencesList.append(Difference)
-        #print(DifferencesList[i])
-
+File.close() 
 
 startval = CleanedOutputs[1]
 
 endindex = 607
 endval = CleanedOutputs[endindex]
-noofpoints = 150
+noofpoints = 150 
 
-initialtimestep = (endval - startval)/noofpoints
+initialtimestep = (endval - startval)/noofpoints #Used to determine the value of an equitemporal time step over a given number of pooints
 listofpoints = []
 
 
@@ -80,30 +64,10 @@ for i in range(len(listOfTimesteps)): #Finds the value that's closest in the fil
     
 print(FileID)
 
+with open(r'E:/demos/files_demos/account/sales.txt', 'w') as fp:
+    for item in FileID:
+        # write each item on a new line
+        fp.write("%s\n" % item)
+    print('Done')
 
-print("git test woweeee!")
-# for i in range (5):
-#     closestval = 99999999999999
-#     timestep = initialtimestep*i
-#     #print(timestep)
-#     valuetoadd = CleanedOutputs[0]
-
-#     for j in range (endindex):
-#         currentdifference = abs(CleanedOutputs[j]-timestep)
-#         #print(currentdifference)
-#         if currentdifference <+ closestval:
-#             valuetoadd = CleanedOutputs[j]
-#             closestval = currentdifference
-
-#     listofpoints.append(valuetoadd)
-    
-    
-# print(listofpoints)
-
-#print(listofpoints)
-# while ID <= 607:
-#     ID = closest(CleanedOutputs,CurrentVal)
-#     print(FileID[ID])
-
-#     print(ID)
-#     CurrentVal += 0.009
+fp.close

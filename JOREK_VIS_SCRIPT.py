@@ -3,15 +3,16 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 import vtk
 
 
-InitialVal = 10000 #Initial numerical value for data entry
+InitialVal = 4800 #Initial numerical value for data entry
 
 
-for i in range(10):
+for i in range(1):
     additive = i * 10 #All files are an addition of 10 on the previous file
     CurrentVal = InitialVal + additive
     StringVal = str(CurrentVal) #Converted to a string to allow file reading
     
-    Currentfile = "/home/user/Desktop/JOREK_data/MAST-U_processed_v2/jorek"+StringVal+".vtk"    
+    Currentfile = "/home/user/Desktop/JOREK_data/MAST-U_processed_v2/jorek0"+StringVal+".vtk"    
+    
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 

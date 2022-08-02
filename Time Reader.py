@@ -64,7 +64,7 @@ for i in range(len(listOfTimesteps)): #Finds the value that's closest in the fil
     
 print(FileID)
 
-with open(r'E:/demos/files_demos/account/sales.txt', 'w') as fp:
+with open(r'/home/user/Desktop/TEST DATA FOR SCRIPTS/TestText.txt', 'w') as fp:
     for item in FileID:
         # write each item on a new line
         fp.write("%s\n" % item)

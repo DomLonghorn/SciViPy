@@ -3,9 +3,8 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 import vtk
 
 
-#InitialVal = 4800 #Initial numerical value for data entry
 
-textfile = open("/home/user/Desktop/TEST DATA FOR SCRIPTS/TestText.txt","r")
+textfile = open("/home/user/Desktop/JOREK_data/150 steps.txt","r")
 
 datapoints = []
 
@@ -16,11 +15,7 @@ for x in textfile:
 print(datapoints) 
 noofpoints = len(datapoints)
 
-for i in range(noofpoints):
-    #additive = i * 10 #All files are an addition of 10 on the previous file
-    #CurrentVal = InitialVal + additive
-    #StringVal = str(CurrentVal) #Converted to a string to allow file reading
-    
+for i in range(70, 73):
     CurrentVal = datapoints[i]
     StringVal = str(CurrentVal)
 
@@ -33,12 +28,13 @@ for i in range(noofpoints):
         print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
     else:
         print("failed")
-     
     #Applies the scalar clip #
+     
     clip=Clip(Input=reader)
     # print(clip.ListProperties)
     clip.ClipType = 'Scalar'    
     clip.Scalars =('POINTS','D_alpha')
+    clip.Value = 0.0004
     clip.Invert = False
 
 
@@ -49,9 +45,22 @@ for i in range(noofpoints):
     ColorBy(display, ('POINTS', 'Te'))
     display.RescaleTransferFunctionToDataRange(True)
 
-    #Saves the file
+    #Saves the Screenshot by setting up a camera position for the active view
+    # myview = GetActiveView()
+    # myview.CameraPosition = [12, 0, 0]
+    # myview.CameraViewUp = [0, 0, 1]    
+
+    # SaveScreenshot("JOREK_"+StringVal+".png", myview,
+    #     ImageResolution=[1500, 1500])
     
+    # Saves the state file #
+
     SaveState("jorek"+StringVal+".pvsm")
+
+    # Saves the Data from the specific clip #
+
+    # SaveData("/home/user/Desktop/JOREK_DATA 2.0/jorek"+StringVal+".vtk", proxy=clip,)
+
     ResetSession()
 
 

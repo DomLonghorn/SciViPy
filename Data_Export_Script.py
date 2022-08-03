@@ -3,41 +3,37 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 import vtk
 
 
-InitialVal = 5030 #Initial numerical value for data entry
 
+textfile = open("/home/user/Desktop/TEST DATA FOR SCRIPTS/TestText.txt","r")
+
+datapoints = []
+
+for x in textfile:
+    lines = x
+    stripnewline = x.rstrip()
+    datapoints.append(stripnewline)
+#print(datapoints) 
+noofpoints = len(datapoints)
 
 for i in range(1):
-    additive = i * 10 #All files are an addition of 10 on the previous file
-    CurrentVal = InitialVal + additive
-    StringVal = str(CurrentVal) #Converted to a string to allow file reading
-    Currentfile = "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Test VTK Folder\\jorek07910.pvsm"
-    #Currentfile = "/home/user/Desktop/JOREK_data/MAST-U_processed_v2/jorek0"+StringVal+".pvsm"    
-
-
-
-
-
-    #reader = OpenDataFile(Currentfile) #This reads the file into the code
-    #reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
-    reader = LoadState(Currentfile)
-    #if reader:
-        #print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
-    #else:
-        #print("failed")
-
-
-
-
-
-    #SaveData("/home/user/Desktop/JOREK_data/MAST-U_processed_v2/TESTjorek0"+StringVal+".vtk",proxy=None)
-    SaveData("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Test VTK Folder\\jorel07910 - TestCopy.vtk")   
+    CurrentVal = datapoints[i]
+    StringVal = str(CurrentVal)   
     
-    #writer = CreateWriter("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Test VTK Folder\\TestSave2.vtk", reader)
-    #writer.WriteAllTimeSteps = 1
-    #writer.FieldAssociation = "Points"
-    writer.UpdatePipeline()
+    Currentfile = "/home/user/Desktop/JOREK_CLEANED 2.0/jorek"+StringVal+".pvsm"
+
+    LoadState(Currentfile)
     
 
+    data = GetActiveView()
 
-    ResetSession()
+    SaveData("/home/user/Desktop/JOREK_DATA 2.0/jorek"+StringVal+".vtk", proxy=data, FileType='vtk')    
+
+
+
+
+
+
+
+
+    #ResetSession()
 

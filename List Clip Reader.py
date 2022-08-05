@@ -15,7 +15,7 @@ for x in textfile:
 print(datapoints) 
 noofpoints = len(datapoints)
 
-for i in range(70, 73):
+for i in range(10, 12):
     CurrentVal = datapoints[i]
     StringVal = str(CurrentVal)
 
@@ -25,6 +25,7 @@ for i in range(70, 73):
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
     if reader:
+        
         print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
     else:
         print("failed")
@@ -55,11 +56,11 @@ for i in range(70, 73):
     
     # Saves the state file #
 
-    SaveState("jorek"+StringVal+".pvsm")
+    # SaveState("jorek"+StringVal+".pvsm")
 
     # Saves the Data from the specific clip #
 
-    # SaveData("/home/user/Desktop/JOREK_DATA 2.0/jorek"+StringVal+".vtk", proxy=clip,)
+    SaveData("/home/user/Desktop/JOREK_DATA 2.0/jorek"+StringVal+".vtk", proxy=clip,)
 
     ResetSession()
 

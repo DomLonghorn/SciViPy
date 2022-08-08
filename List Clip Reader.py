@@ -4,9 +4,13 @@ import vtk
 
 
 
-textfile = open("/home/user/Desktop/JOREK_data/150 steps.txt","r")
+textfile = open("/home/user/Desktop/Data/JOREK_data/150 steps.txt","r")
 
 datapoints = []
+
+ScalarVal = 0.00025
+
+
 
 for x in textfile:
     lines = x
@@ -15,11 +19,12 @@ for x in textfile:
 print(datapoints) 
 noofpoints = len(datapoints)
 
-for i in range(10, 12):
+for i in range(0, 150, 20):
     CurrentVal = datapoints[i]
     StringVal = str(CurrentVal)
 
-    Currentfile = "/home/user/Desktop/JOREK_data/jorek0"+StringVal+".vtk"    
+    #Currentfile = "/home/user/Desktop/Data/JOREK_data/jorek0"+StringVal+".vtk"    
+    Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
     print(Currentfile)
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
@@ -35,7 +40,7 @@ for i in range(10, 12):
     # print(clip.ListProperties)
     clip.ClipType = 'Scalar'    
     clip.Scalars =('POINTS','D_alpha')
-    clip.Value = 0.0004
+    clip.Value = ScalarVal
     clip.Invert = False
 
 
@@ -60,7 +65,7 @@ for i in range(10, 12):
 
     # Saves the Data from the specific clip #
 
-    SaveData("/home/user/Desktop/JOREK_DATA 2.0/jorek"+StringVal+".vtk", proxy=clip,)
+    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/jorek "+str(ScalarVal)+" " + StringVal  + ".vtk", proxy=clip,)
 
     ResetSession()
 

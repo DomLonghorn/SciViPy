@@ -3,30 +3,44 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 import vtk
 
 
-InitialVal = 4800 #Initial numerical value for data entry
+
+textfile = open("/home/user/Desktop/Data/JOREK_data/150 steps.txt","r")
+
+datapoints = []
+
+ScalarVal = 0.00025
 
 
-for i in range(1):
-    additive = i * 10 #All files are an addition of 10 on the previous file
-    CurrentVal = InitialVal + additive
-    StringVal = str(CurrentVal) #Converted to a string to allow file reading
-    
-    Currentfile = "/home/user/Desktop/JOREK_data/MAST-U_processed_v2/jorek0"+StringVal+".vtk"    
-    
+
+for x in textfile:
+    lines = x
+    stripnewline = x.rstrip()
+    datapoints.append(stripnewline)
+print(datapoints) 
+noofpoints = len(datapoints)
+
+for i in range(0, 150, 20):
+    CurrentVal = datapoints[i]
+    StringVal = str(CurrentVal)
+
+    #Currentfile = "/home/user/Desktop/Data/JOREK_data/jorek0"+StringVal+".vtk"    
+    Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
+    print(Currentfile)
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
     if reader:
+        
         print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
     else:
         print("failed")
+    #Applies the scalar clip #
      
-   
-   #Applies the scalar clip #
     clip=Clip(Input=reader)
     # print(clip.ListProperties)
     clip.ClipType = 'Scalar'    
     clip.Scalars =('POINTS','D_alpha')
+    clip.Value = ScalarVal
     clip.Invert = False
 
 
@@ -37,7 +51,26 @@ for i in range(1):
     ColorBy(display, ('POINTS', 'Te'))
     display.RescaleTransferFunctionToDataRange(True)
 
-    #Saves the file
+    #Saves the Screenshot by setting up a camera position for the active view
+    # myview = GetActiveView()
+    # myview.CameraPosition = [12, 0, 0]
+    # myview.CameraViewUp = [0, 0, 1]    
+
+    # SaveScreenshot("JOREK_"+StringVal+".png", myview,
+    #     ImageResolution=[1500, 1500])
     
-    SaveState("jorek"+StringVal+".pvsm")
+    # Saves the state file #
+
+    # SaveState("jorek"+StringVal+".pvsm")
+
+    # Saves the Data from the specific clip #
+
+    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/jorek "+str(ScalarVal)+" " + StringVal  + ".vtk", proxy=clip,)
+
     ResetSession()
+
+
+    #For the .Csv stuff, you go table to points and then you have to set the x,y and z grid points and recolour it.
+    # can then save to vtk and should still work
+
+textfile.close()

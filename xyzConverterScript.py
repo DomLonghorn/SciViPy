@@ -1,13 +1,16 @@
 import numpy as np
+import sys
+print(sys.version)
 
 
-Data = open("/home/user/Desktop/Data/Max Data/w_220_cascade.00500.voxels.xyz","r")
-#Data = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\w_220_cascade.00500.voxels.xyz","r")
 
-# DataFile = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\DataTXT.txt","w")
-# InfoFile = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\InfoTXT.txt","w")
-DataFile = open("/home/user/Desktop/Data/Max Data/DataTXT.txt","w")
-InfoFile = open("/home/user/Desktop/Data/Max Data/InfoTXT.txt","w")
+#Data = open("/home/user/Desktop/Data/Max Data/w_220_cascade.00500.voxels.xyz","r")
+Data = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\w_220_cascade.00500.voxels.xyz","r")
+
+DataFile = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\DataTXT.txt","w")
+InfoFile = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Max Data\\InfoTXT.txt","w")
+#DataFile = open("/home/user/Desktop/Data/Max Data/DataTXT.txt","w")
+#InfoFile = open("/home/user/Desktop/Data/Max Data/InfoTXT.txt","w")
 
 
 
@@ -43,9 +46,11 @@ Z_Positions = []
 
 DataLength = len(dataLines)
 
-F1 = np.zeros((3,DataLength))
-F2 = np.zeros((3,DataLength))
-F3 = np.zeros((3,DataLength))
+F1 = numpy.zeros((3,DataLength))
+F2 = numpy.zeros((3,DataLength))
+F3 = numpy.zeros((3,DataLength))
+
+ScalarStrainFactor = []
 
 for i in range(DataLength):
     position = dataLines[i]
@@ -74,4 +79,12 @@ for i in range(DataLength):
     F3[1,i] = f32
     f33 = float(position[124:134])
     F3[2,i] = f33
-print(F1)
+
+
+    StrainFactor = f11 + f22 + f33
+    ScalarStrainFactor.append[StrainFactor-3]
+
+
+
+
+print(ScalarStrainFactor)

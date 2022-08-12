@@ -1,38 +1,45 @@
+import laspy as lp
 import numpy as np
-import time
-
-count = 0
+import open3d as o3d
 
 
-myList = [2,15,4,66,2345,7,0.8]
+input_path="/home/user/home/user/Desktop/Data/Max Data/"
+dataname="ConveredData.csv"
+
+point_cloud=lp.read(input_path+dataname)
 
 
-myNumber = 54
+pcd = o3d.geometry.PointCloud()
+pcd.points = o3d.utility.Vector3dVector(np.vstack((point_cloud.x, point_cloud.y, point_cloud.z)).transpose())
+pcd.colors = o3d.utility.Vector3dVector(np.vstack((point_cloud.red, point_cloud.green, point_cloud.blue)).transpose()/65535)
 
-print(min(myList, key=lambda x:abs(x-myNumber)))
 
+v_size=round(max(pcd.get_max_bound()-pcd.get_min_bound())*0.005,4)
+voxel_grid=o3d.geometry.VoxelGrid.create_from_point_cloud(pcd,voxel_size=v_size)
 
-
-# File = open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r')
-# for x in File:
-#     print(x)
-#     print(count)
-#     count+=1
+voxel_grid=o3d.geometry.VoxelGrid.create_from_point_cloud(pcd,voxel_size=v_size)
 
 
 
-# with open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt") as file:
-#     for x in file:
-#         print(count)
-#         FullString = file.readlines()
-#         print(FullString)
-#         StringToCut = FullString[0:14]
-#         #print(StringToCut)
-#         FinalString = FullString[count].replace(StringToCut, "")
-#         #print(FinalString)     
-#         SigFigString = FinalString[0:8]
-#         #print(SigFigString)
-#         StringToConvert = SigFigString.strip()
-#         #print(StringToConvert)
-#         count+=1
+voxels=voxel_grid.get_voxels()
+vox_mesh=o3d.geometry.TriangleMesh()
+
+for v in voxels:
+   cube=o3d.geometry.TriangleMesh.create_box(width=1, height=1,
+   depth=1)
+   cube.paint_uniform_color(v.color)
+   cube.translate(v.grid_index, relative=False)
+   vox_mesh+=cube
+
+
+
+vox_mesh.translate([0.5,0.5,0.5], relative=True)
+vox_mesh.scale(voxel_size, [0,0,0])
+vox_mesh.translate(voxel_grid.origin, relative=True)
+vox_mesh.merge_close_vertices(0.0000001)
+o3d.io.write_triangle_mesh(input_path+”voxel_mesh_h.obj”, vox_mesh)
+
+
+T=np.array([[1, 0, 0, 0],[0, 0, 1, 0],[0, -1, 0, 0],[0, 0, 0, 1]])
+o3d.io.write_triangle_mesh(input_path+"4_vox_mesh_r.ply", vox_mesh.transform(T))
 

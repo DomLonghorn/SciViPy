@@ -8,26 +8,26 @@ textfile = open("/home/user/Desktop/Data/JOREK_data/150 steps.txt","r")
 
 datapoints = []
 
-StanScalarVal = 0.00025
+StanScalarVal = 0.0001
 MaxScalarVal = -0.02
 
 
 
 def StanClip(reader,ScaVal):
-        clip=Clip(Input=reader)
+    clip=Clip(Input=reader)
         
-        clip.ClipType = 'Scalar'    
-        clip.Scalars =('POINTS','D_alpha')
-        clip.Value = ScaVal
-        clip.Invert = False
+    clip.ClipType = 'Scalar'    
+    clip.Scalars =('points','D_alpha')
+    clip.Value = ScaVal
+    clip.Invert = False
 
 
-        #Once the clip has been applied, this edits the visuals of it
-        SetDisplayProperties(Opacity=0.5)
-        SetDisplayProperties(ColorArrayName='Te') 
-        display = Show(clip)
-        ColorBy(display, ('POINTS', 'Te'))
-        display.RescaleTransferFunctionToDataRange(True)
+    #Once the clip has been applied, this edits the visuals of it
+    SetDisplayProperties(Opacity=0.5)
+    SetDisplayProperties(ColorArrayName='Te') 
+    display = Show(clip)
+    ColorBy(display, ('POINTS', 'Te'))
+    display.RescaleTransferFunctionToDataRange(True)
 
 
 
@@ -46,7 +46,7 @@ def MaxClip(reader, ScaVal):
     display = Show(clip)
     ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
     display.RescaleTransferFunctionToDataRange(True)
-
+    return clip
 
 #Saves the Screenshot by setting up a camera position for the active view
 def StanScreenShot(StrVal):
@@ -63,47 +63,64 @@ def StanSaveState(StrVal):
     SaveState("jorek"+StrVal+".pvsm")
 
 #Saves the Data from the specific clip #
-def SaveData(StrVal,ScaVal):
-    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/jorek "+str(ScaVal)+" " + StrVal  + ".vtk", proxy=clip,)
+def StanSaveData(ScaVal,StringVal):
+    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/Mos 2.0/jorek"+str(ScaVal)+"" + StringVal  + ".vtk", proxy=None,)
 
 
 def Stan(Reader,ScaVal,StrVal):
     StanClip(Reader,StrVal)
-    ScreenShot(StrVal)
-    SaveState(StrVal)
+    StanScreenShot(StrVal)
+    StanSaveState(StrVal)
     SaveData(StrVal,ScaVal)
 
 
-# for x in textfile:
-#     lines = x
-#     stripnewline = x.rstrip()
-#     datapoints.append(stripnewline)
-# print(datapoints) 
-# noofpoints = len(datapoints)
+def FindDataPoints(textfile):
+    for x in textfile:
+        # lines = x
+        stripnewline = x.rstrip()
+        datapoints.append(stripnewline)
+    # print(datapoints) 
+    return datapoints
+    
+FindDataPoints(textfile)
 
-# for i in range(0, 150, 20):
+
+# noofpoints = len(datapoints)
+# print(noofpoints)
+# for i in range(0,150,10):
 #     CurrentVal = datapoints[i]
 #     StringVal = str(CurrentVal)
-#     #Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
+#     Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
+ 
     
     
+#     # print(Currentfile)
+#     reader = OpenDataFile(Currentfile) #This reads the file into the code
+#     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
+
+#     if reader:
+#         print("success")
+#     else:
+#         print("failed")
+
+#     StanClip(reader,StanScalarVal)
+#     # StanScreenShot(StringVal)
+#     # StanSaveState(StringVal)
+#     # print(StanScalarVal,StringVal)
+
+#     StanSaveData(StanScalarVal,StringVal)
+    
+#     #Stan(reader,StanScalarVal,StringVal)
+
+#     ResetSession()
     
 Currentfile = "/home/user/Desktop/Data/Max Data/ConvertedData.csv"
-   
 print(Currentfile)
 reader = OpenDataFile(Currentfile) #This reads the file into the code
 reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
-if reader:
-        
-    # print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
-    print("success")
-else:
-    print("failed")
 MaxClip(reader,MaxScalarVal)
      
-    #Stan(reader,StanScalarVal,StringVal)
-
-    #ResetSession()
+    
 
 textfile.close()

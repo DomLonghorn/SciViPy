@@ -22,7 +22,7 @@ MaxScalarVal = -0.02
 
 
 def MaxClip(reader, ScaVal):
-    points=TableToPoints(Input=reader,XColumn="X Position",YColumn="Y Position",ZColumn="Z Position")
+    
     SetDisplayProperties(Opacity=0.01)
     clip=Clip(Input=points)
         
@@ -36,22 +36,39 @@ def MaxClip(reader, ScaVal):
     ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
     display.RescaleTransferFunctionToDataRange(True)
     return clip
+    
+def PointsView(reader):    
+    points=TableToPoints(Input=reader,XColumn="X Position",YColumn="Y Position",ZColumn="Z Position")
+    return points
 
+def MaxColour(points):
+    SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
+    display = Show(points)
+    ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
+    display.RescaleTransferFunctionToDataRange(True)
 
 def savedata(filepath):
     SaveData(filepath)
+    return print("Saved Data")
+
 
 def ScreenShot(filepath):
     
     myview = GetActiveView()
-    myview.CameraPosition = [12, 0, 0]
+    myview.CameraPosition = [1000, 800, 800]
     myview.CameraViewUp = [0, 0, 1]    
 
     SaveScreenshot(filepath+".png", myview,ImageResolution=[1500, 1500])
-
+    return print("Saved Screenshot")
 
 # def Maxsavestate(filepath):   
 #     SaveState(filepath+".pvsm")
+
+def CrystalVis(reader,FilePath):
+    points = PointsView(reader)
+    MaxColour(points)
+    # savedata(FilePath[i]+".csv")
+    ScreenShot(FilePath[i])
 
 
 finalFilePath = []
@@ -60,16 +77,18 @@ for i in range(len(filepaths)):
 
 
 
-for i in range(1):   
+for i in range(100):   
     Currentfile = mypath + onlyfiles[i]
     print(Currentfile)
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
-    MaxClip(reader,MaxScalarVal)
-    savedata(finalFilePath[i]+".csv")
-    ScreenShot(finalFilePath[i])
+    CrystalVis(reader,finalFilePath)
+    # points = PointsView(reader)
+    # MaxColour(points)
+    # savedata(finalFilePath[i]+".csv")
+    # ScreenShot(finalFilePath[i])
     # SaveState(finalFilePath[i]+".pvsm")
-    # ResetSession()
+    ResetSession()
 
 

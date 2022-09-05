@@ -31,23 +31,6 @@ def StanClip(reader,ScaVal):
 
 
 
-def MaxClip(reader, ScaVal):
-    points=TableToPoints(Input=reader,XColumn="X Position",YColumn="Y Position",ZColumn="Z Position")
-    SetDisplayProperties(Opacity=0.01)
-    clip=Clip(Input=points)
-        
-    clip.ClipType = 'Scalar'    
-    clip.Scalars =("POINTS",'Strain Scaling Factor')
-    clip.Value = ScaVal
-    clip.Invert = True
-
-    
-    SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
-    display = Show(clip)
-    ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
-    display.RescaleTransferFunctionToDataRange(True)
-    return clip
-
 #Saves the Screenshot by setting up a camera position for the active view
 def StanScreenShot(StrVal):
     
@@ -76,51 +59,43 @@ def Stan(Reader,ScaVal,StrVal):
 
 def FindDataPoints(textfile):
     for x in textfile:
-        # lines = x
         stripnewline = x.rstrip()
         datapoints.append(stripnewline)
-    # print(datapoints) 
     return datapoints
     
 FindDataPoints(textfile)
 
 
-# noofpoints = len(datapoints)
-# print(noofpoints)
-# for i in range(0,150,10):
-#     CurrentVal = datapoints[i]
-#     StringVal = str(CurrentVal)
-#     Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
+noofpoints = len(datapoints)
+print(noofpoints)
+for i in range(0,150,10):
+    CurrentVal = datapoints[i]
+    StringVal = str(CurrentVal)
+    Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
  
     
     
-#     # print(Currentfile)
-#     reader = OpenDataFile(Currentfile) #This reads the file into the code
-#     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
+    # print(Currentfile)
+    reader = OpenDataFile(Currentfile) #This reads the file into the code
+    reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
-#     if reader:
-#         print("success")
-#     else:
-#         print("failed")
+    if reader:
+        print("success")
+    else:
+        print("failed")
 
-#     StanClip(reader,StanScalarVal)
-#     # StanScreenShot(StringVal)
-#     # StanSaveState(StringVal)
-#     # print(StanScalarVal,StringVal)
+    StanClip(reader,StanScalarVal)
+    # StanScreenShot(StringVal)
+    # StanSaveState(StringVal)
+    # print(StanScalarVal,StringVal)
 
-#     StanSaveData(StanScalarVal,StringVal)
+    StanSaveData(StanScalarVal,StringVal)
     
-#     #Stan(reader,StanScalarVal,StringVal)
+    #Stan(reader,StanScalarVal,StringVal)
 
-#     ResetSession()
+    ResetSession()
     
-Currentfile = "/home/user/Desktop/Data/Max Data/ConvertedData.csv"
-print(Currentfile)
-reader = OpenDataFile(Currentfile) #This reads the file into the code
-reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
-MaxClip(reader,MaxScalarVal)
-     
     
 
 textfile.close()

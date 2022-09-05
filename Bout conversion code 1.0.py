@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from tkinter import Y
+from tkinter import W, Y
 from matplotlib import pyplot as plt
 import numpy as np
 import xarray as xr
@@ -85,7 +85,7 @@ n_Cartesian = n.bout.interpolate_to_cartesian(nX, nY, nZ)
 n_Cartesian_results = n_Cartesian.values
 print(n_Cartesian_results)
 
-
+#Saving Coord values into individual Arrays
 
 X = n_Cartesian["X"]
 Y = n_Cartesian["Y"]
@@ -94,10 +94,10 @@ Z = n_Cartesian["Z"]
 
 print("opening files")
 
-file = open("/home/user/Desktop/Data/BOUT++ Data/John Data/Saved data(Cartesian).csv","w")
-file2 = open("/home/user/Desktop/Data/BOUT++ Data/John Data/Saved data 2.csv","w")
+#Opening files to written into
+
+file = open("/home/user/Desktop/Data/BOUT++ Data/John Data/Saved data(Cartesian).csv","w")        
 writer = csv.writer(file)
-writer2 = csv.writer(file2)
 
 
 
@@ -125,7 +125,7 @@ writer2 = csv.writer(file2)
 
 # print(n)
 
-
+#Defining a function to create string arrays from coordinates to write to the file easily
 
 def StringMake(String):
     FinalString = []
@@ -140,78 +140,29 @@ def StringMake(String):
 
 print("making strings")
 
+#Creating the arrays for the stringed coords
+
 StringX = StringMake(X)
 StringY = StringMake(Y)
 StringZ = StringMake(Z)
 
-Coords=[]
 
 
-
-
-
-
-
-# for i in range(len(X)):
-#     ListAdditionX = str(X[i]) 
-#     ListAdditionY = str(Y[i]) 
-#     ListAdditionZ = str(Z[i]) 
-
-#     ListStripX = ListAdditionX.split("(")
-#     ListStripX2 = ListStripX[2].split(")")
-    
-#     ListStripY = ListAdditionY.split("(")
-#     ListStripY2 = ListStripY[2].split(")")
-
-#     ListStripZ = ListAdditionZ.split("(")
-#     ListStripZ2 = ListStripZ[2].split(")")
-
-#     StringX.append(ListStripX2[0])
-#     StringY.append(ListStripY2[0])
-#     StringZ.append(ListStripZ2[0])
-
-
-
-
-
-# count = 0
-# for i in range(len(StringX)):
-#     if StringX[i] == StringY[i]:
-#         print(str(i) + "- Same")
-#         count +=1
-#     else:
-#         pass
-# print(count)
-
-
-print("Writing files")
-
-Row = []
-ResultsRow = []
 
 print("doing results")
 
-print(n_Cartesian_results[0,0])
+#Creating a long array of the density results
 
 StringNan = np.ravel(n_Cartesian_results)
 print(StringNan)
 
+#Turning each of the results from Nan -> 0 which means paraview can read it
+
 StringNan[np.isnan(StringNan)] = int(0)
 print("writing positions")
 
-print(len(StringNan))
 
-XLength = len(StringX)
-YLength = len(StringY)
-ZLength = len(StringZ)
-# NLength = len(String0)
-
-def FirstFileLength(StringX):
-    Boundary = (len(StringX)/2)
-    Step = math.floor(Boundary)
-    return Step
-
-
+Row = []
 
 count = 0
 
@@ -225,13 +176,6 @@ for i in range(len(StringX)):
                 file.write(Row)
             count += 1
 file.close()
-# file2.write("X Position" + "," + "Y Position" + "," + "Z Position" + " , " + "N" + "\n")
-# for i in range(FirstFileLength(StringX),len(StringX)):
-#     for j in range(FirstFileLength(StringY),len(StringY)):
-#         for k in range(FirstFileLength(StringZ),len(StringZ)):
-#             Row = StringX[i] + " , " + StringY[j] + " , " + StringZ[k] + " , " + str(Test[k]) + "\n"
-#             file2.write(Row)
-# file2.close()
 
 
 

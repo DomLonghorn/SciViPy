@@ -1,11 +1,11 @@
 # SciVistaInterns
-The York Science Team going rogue using git
 
-These files are part of our Internship tasks of converting MAST-U data into visualised and available
-data points to be used in VR spaces. The scripts in use are described below:
+Compilation of scripts to be used for data visualisation produced by Freddie Carlisle and Dom Longhorn with a particular focus on paraview readability
 
 JOREK_VIS_SCRIPT:
-    Visualises the JOREK MAST data set provided for us by the UKAEA and outputs the updated vtk files
+    Takes already simulated data produced using JOREK code and automates the paraview visualisation process. There are parameters within the code that can be changed in order to modify the resulting output files.
 Timestep_Calculator:
-    Takes a .txt file containing the timesteps for a given file (in this instance the JOREK data) and outputs a list of equitemporal timesteps for a chosen number of points
-BOUT++ Scripts are still heavily WIP and are dependant on people from within the UKAEA to create interpolaition so data can be understood and outputted
+    Takes in a .txt file containing a list of timesteps for a given data set and ensures that they are linearly replaced so that smooth animations can be produced with ease using paraview
+Bout Conversion Code:
+    Made in collaboration with the XBOUT project and John Omotani (UKAEA)
+    This script will take a BOUT++ dataset and will use pre-existing xbout interpolation routines to convert data into a cartesian format so that it can be read into software such as paraview. The current output is to a .csv file and can be modified to extract different variables as required. This process is VERY memory intensive however so ensure the script is ran on a machine with enough RAM

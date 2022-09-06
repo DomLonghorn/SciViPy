@@ -3,7 +3,7 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 from os import listdir
 from os.path import isfile, join
 import glob
-# import imageio
+# import imageio ###Figure out how to get paraview to recognise ImageIO so it can make GIFs all in one code ###
 
 mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
 MaxScalarVal = 0.15

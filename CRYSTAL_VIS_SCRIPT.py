@@ -20,7 +20,7 @@ imagesList = []
 
 def MaxClip(reader, ScaVal):
     
-    SetDisplayProperties(Opacity=0.01)
+    SetDisplayProperties(Opacity=0.011)
     clip=Clip(Input=reader)
         
     clip.ClipType = 'Scalar'    
@@ -51,7 +51,7 @@ def MaxColour(points):
 
     ColourMap = GetColorTransferFunction('Strain Scaling Factor')
     ColourMap.RescaleTransferFunction(0, 0.2)
-
+    ColourMap.ApplyPreset("Inferno (matplotlib)",True)
     return print("Coloured data")
     
 def savedata(filepath):
@@ -78,7 +78,8 @@ def CrystalVis(reader,DataPath,ShotPath):
     MaxClip(points,MaxScalarVal)
     #savedata(DataPath[i]+".csv")
     ScreenShot(ShotPath[i])
-    Hide(points)
+
+
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 onlyfiles.sort()
 
@@ -93,7 +94,7 @@ for i in range(len(filepaths)):
     finalShotPath.append(mypath + "/DataAndScreenshots/Screenshots/"+onlyfiles[i])
     finalStatePath.append(mypath + "/DataAndScreenshots/States/"+onlyfiles[i])
 
-
+# len(onlyfiles)
 for i in range(len(onlyfiles)):
     Currentfile = mypath + onlyfiles[i]
     print("Current iteration and file:"+str([i])+" - " + Currentfile)
@@ -102,7 +103,7 @@ for i in range(len(onlyfiles)):
     
     CrystalVis(reader,finalDataPath,finalShotPath) # This is a compound function that takes all of the mini functions and processes it all here
 
-    # ResetSession()
+    ResetSession()
     ### 100 frames takes about 18 mins to process for the Max converted data set (85.3 Mbs each) ###
 
 

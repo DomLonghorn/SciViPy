@@ -15,7 +15,7 @@ for images in glob.iglob(f'{folder_dir}/*'):
         imagesList.append(images)
         print(images)
 imagesList.sort()
-print(imagesList)
+
 with imageio.get_writer(folder_dir + '/Jorek_GIF.gif', mode='I') as writer:
     for filename in imagesList:
         image = imageio.imread(filename)

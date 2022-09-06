@@ -3,7 +3,7 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 from os import listdir
 from os.path import isfile, join
 import glob
-# import imageio
+# import imageio ###Figure out how to get paraview to recognise ImageIO so it can make GIFs all in one code ###
 
 mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
 MaxScalarVal = 0.15
@@ -48,7 +48,6 @@ def MaxColour(points):
     display = Show(points)
     
     ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
-    # display.RescaleTransferFunctionToDataRange(True)
 
     ColourMap = GetColorTransferFunction('Strain Scaling Factor')
     ColourMap.RescaleTransferFunction(0, 0.2)
@@ -66,7 +65,7 @@ def ScreenShot(filepath):
     myview.CameraViewUp = [0, 0, 1]    
     
     SaveScreenshot(filepath+".png", myview,ImageResolution=[1500, 1500])
-    Show()
+    
 
     return print("Saved Screenshot")
 
@@ -75,13 +74,11 @@ def ScreenShot(filepath):
 
 def CrystalVis(reader,DataPath,ShotPath):
     points = PointsView(reader)
-
-    # LoadPalette("Black-Body Radiation")
     MaxColour(points)
     MaxClip(points,MaxScalarVal)
     #savedata(DataPath[i]+".csv")
     ScreenShot(ShotPath[i])
-
+    Hide(points)
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 onlyfiles.sort()
 
@@ -97,14 +94,15 @@ for i in range(len(filepaths)):
     finalStatePath.append(mypath + "/DataAndScreenshots/States/"+onlyfiles[i])
 
 
-for i in range(154,157):
+for i in range(len(onlyfiles)):
     Currentfile = mypath + onlyfiles[i]
     print("Current iteration and file:"+str([i])+" - " + Currentfile)
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
     
     CrystalVis(reader,finalDataPath,finalShotPath) # This is a compound function that takes all of the mini functions and processes it all here
-    ResetSession()
+
+    # ResetSession()
     ### 100 frames takes about 18 mins to process for the Max converted data set (85.3 Mbs each) ###
 
 

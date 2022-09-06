@@ -9,3 +9,6 @@ Timestep_Calculator:
 Bout Conversion Code:
     Made in collaboration with the XBOUT project and John Omotani (UKAEA)
     This script will take a BOUT++ dataset and will use pre-existing xbout interpolation routines to convert data into a cartesian format so that it can be read into software such as paraview. The current output is to a .csv file and can be modified to extract different variables as required. This process is VERY memory intensive however so ensure the script is ran on a machine with enough RAM
+Bout Conversion Code:
+    Made in collaboration with the XBOUT project and John Omotani (UKAEA)
+    This script will take a BOUT++ dataset and will use pre-existing xbout interpolation routines to convert data into a cartesian format so that it can be read into software such as paraview. The current output is to a .csv file and can be modified to extract different variables as required. This process is VERY memory intensive however so ensure the script is ran on a machine with enough RAM    

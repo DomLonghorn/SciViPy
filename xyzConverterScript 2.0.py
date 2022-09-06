@@ -1,6 +1,7 @@
 
 import numpy as np
 import csv
+from os import rename
 from os import listdir
 from os.path import isfile, join
 #start loop
@@ -20,10 +21,26 @@ mypath = "/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)"
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 print(onlyfiles)
 
+namingpaths = []   
+
+for i in range(len(onlyfiles)):
+    namingpaths.append(onlyfiles[i].split(".")[1])
+
+
+for i in range(len(onlyfiles)):
+    if len(namingpaths[i]) == 1:
+        namingpaths[i] = ("000" + namingpaths[i])
+    if len(namingpaths[i]) == 2:
+        namingpaths[i] = ("00" + namingpaths[i])
+    if len(namingpaths[i]) == 3:
+        namingpaths[i] = ("0" + namingpaths[i])
+
+for i in range(len(onlyfiles)):
+    print("naming path - "+namingpaths[i]+ "  File path:" + mypath+onlyfiles[i])
 
 for i in range(len(onlyfiles)):
     Data = open("/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)/"+onlyfiles[i],"r")
-
+    print("iteration -" + str(i))
 
     for count, line in enumerate(Data):
             pass
@@ -37,7 +54,7 @@ for i in range(len(onlyfiles)):
     infoLines = []
     dataLines = []
 
-    Data = open("/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)/large_cascade6400eV.0.vox64.xyz","r")
+    Data = open("/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)/"+onlyfiles[i],"r")
         
     count = 0 #count reset
 
@@ -90,23 +107,22 @@ for i in range(len(onlyfiles)):
         VonMisesString = vonMises.split("\n")
         ScalarStrainFactor.append(VonMisesString[0])
 
-    ConvertedFile = open("/home/user/Desktop/Data/Max Data/ConvertedData/Converted - "+onlyfiles[i]+".csv","w")
+    ConvertedFile = open("/home/user/Desktop/Data/Max Data/ConvertedData/Converted - "+namingpaths[i]+".csv","x")
     writer = csv.writer(ConvertedFile)
     Row = []
     ConvertedFile.write("X Position" + "," + "Y Position" + "," + "Z Position" + "," + "Strain Scaling Factor" + "\n")
 
     count = 0
 
-    print("X - " + str(len( X_Positions)))
-    print("Y - " + str(len(Y_Positions)))
-    print("Z - " + str(len(Z_Positions)))
-    print("Strain - " + str(len( ScalarStrainFactor)))
+    # print("X - " + str(len( X_Positions)))
+    # print("Y - " + str(len(Y_Positions)))
+    # print("Z - " + str(len(Z_Positions)))
+    # print("Strain - " + str(len( ScalarStrainFactor)))
     for x in range(DataLength):
         Row = str(X_Positions[x]) + "," + str(Y_Positions[x]) + "," + str(Z_Positions[x]) + "," + str(ScalarStrainFactor[count])  + "\n"
-
+        # print(count)
         count+=1
         ConvertedFile.write(Row)
-
-    count = 0
+    
         
     ConvertedFile.close()

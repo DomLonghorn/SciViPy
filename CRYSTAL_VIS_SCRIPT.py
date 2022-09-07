@@ -4,6 +4,9 @@ from os import listdir
 from os.path import isfile, join
 
 
+
+### RUN THIS CODE IN PARAVIEW PYTHON SHELL ###
+
 mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"    #The directory you want to create stills from
 
 finalShotPath = "/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/" # The directory where you want your Stills/Frames to be saved

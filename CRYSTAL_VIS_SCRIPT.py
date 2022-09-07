@@ -2,25 +2,29 @@ from paraview.simple import *
 from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
 from os import listdir
 from os.path import isfile, join
-import glob
-# import imageio ###Figure out how to get paraview to recognise ImageIO so it can make GIFs all in one code ###
-
-mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
-MaxScalarVal = 0.15
 
 
+mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"    #The directory you want to create stills from
+
+finalShotPath = "/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/" # The directory where you want your Stills/Frames to be saved
+
+
+MaxScalarVal = 0.15 #The value you would like to do the scalar clip from. i.e Only values above this value will be shown.
+
+### Creating empty lists ###
 filepaths = []
 datapoints = []
 finalDataPath = []
-finalShotPath = []
 finalStatePath = []
 finalFilePath = []
 imagesList = []
 
+### Defines the standard clip used to show "extreme" or interesting parts of the data###
 
-def MaxClip(reader, ScaVal):
+
+def MaxClip(reader, ScaVal, opacity=0.05, Range = (0, 0.2)):
     
-    SetDisplayProperties(Opacity=0.011)
+    SetDisplayProperties(Opacity=opacity)
     clip=Clip(Input=reader)
         
     clip.ClipType = 'Scalar'    
@@ -33,16 +37,18 @@ def MaxClip(reader, ScaVal):
     ColourMap = GetColorTransferFunction('Strain Scaling Factor')
     SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
     ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
-    ColourMap.RescaleTransferFunction(0, 0.2)
+    ColourMap.RescaleTransferFunction(Range)
 
     return clip
-    
+### Turns the .CSV to actual points to be seen ###   
 def PointsView(reader):    
     TableToPoints(Input=reader,XColumn="X Position",YColumn="Y Position",ZColumn="Z Position")
     
     return print("Interpolated to points")
 
-def MaxColour(points):
+### Colours the points based on a set range ###
+
+def MaxColour(points, Range = (0, 0.2)):
     LoadPalette("Black-Body Radiation")
     SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
     display = Show(points)
@@ -50,15 +56,19 @@ def MaxColour(points):
     ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
 
     ColourMap = GetColorTransferFunction('Strain Scaling Factor')
-    ColourMap.RescaleTransferFunction(0, 0.2)
+    ColourMap.RescaleTransferFunction(Range)
     ColourMap.ApplyPreset("Inferno (matplotlib)",True)
     return print("Coloured data")
     
+### A function to saved the clipped data if you want to use it later on ###
 def savedata(filepath):
-    SaveData(filepath+"Data/")
+    SaveData(filepath)
 
     return print("Saved Data")
 
+
+
+### Saves the screenshot of the current view ###
 def ScreenShot(filepath):
     myview = GetActiveView()
     myview.CameraPosition = [1000, 800, 800]
@@ -69,56 +79,36 @@ def ScreenShot(filepath):
 
     return print("Saved Screenshot")
 
-# def Maxsavestate(filepath):   
-#     SaveState(filepath+".pvsm")
 
-def CrystalVis(reader,DataPath,ShotPath):
+### Connects all the other functions into one ###
+def CrystalVis(reader,ShotPath,opacity=0.05):
     points = PointsView(reader)
+    print()
     MaxColour(points)
-    MaxClip(points,MaxScalarVal)
-    #savedata(DataPath[i]+".csv")
-    ScreenShot(ShotPath[i])
+    print()
+    MaxClip(points,MaxScalarVal,opacity)
 
+    ScreenShot(ShotPath)
 
+### Adds all the files in the directory into a list and sorts it so it appears in numerical order ###
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 onlyfiles.sort()
 
-for i in range(len(onlyfiles)):
-    filepaths.append(onlyfiles[i][0:-4])
+
+### A final function to create an amount of frames specified
+def FrameCreation(NoOfFrames,File,FilePathForScreenshot,opacity=0.05):
+    for i in range(NoOfFrames): #This shows how many 
+        #print("Current iteration and file:"+str([i])+" - " + File[i])
+        print(File[i])
+        reader = OpenDataFile(mypath + File[i]) #This reads the file into the code
+        reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
+        print(FilePathForScreenshot)
+        CrystalVis(reader,FilePathForScreenshot+File[i],opacity) # This is a compound function that takes all of the mini functions and processes it all here
+
+        ResetSession()
+        ### 100 frames takes about 18 mins to process for the Max converted data set (85.3 Mbs each) ###
 
 
-
-for i in range(len(filepaths)):
-    finalFilePath.append(mypath + "/DataAndScreenshots/"+onlyfiles[i])
-    finalDataPath.append(mypath + "/DataAndScreenshots/Data/"+onlyfiles[i])
-    finalShotPath.append(mypath + "/DataAndScreenshots/Screenshots/"+onlyfiles[i])
-    finalStatePath.append(mypath + "/DataAndScreenshots/States/"+onlyfiles[i])
-
-# len(onlyfiles)
-for i in range(len(onlyfiles)):
-    Currentfile = mypath + onlyfiles[i]
-    print("Current iteration and file:"+str([i])+" - " + Currentfile)
-    reader = OpenDataFile(Currentfile) #This reads the file into the code
-    reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
-    
-    CrystalVis(reader,finalDataPath,finalShotPath) # This is a compound function that takes all of the mini functions and processes it all here
-
-    ResetSession()
-    ### 100 frames takes about 18 mins to process for the Max converted data set (85.3 Mbs each) ###
+FrameCreation((3),(onlyfiles),finalShotPath,opacity=0.05)
 
 
-PNG_dir = mypath + "/DataAndScreenshots/Screenshots"
- 
-
-# for images in glob.iglob(f'{folder_dir}/*'):
-   
-#     # check if the image ends with png
-#     if (images.endswith(".png")):
-#         imagesList.append(images)
-#         print(images)
-# imagesList.sort()
-
-# with imageio.get_writer(PNG_dir + '/CrystalGif.gif', mode='I') as writer:
-#     for filename in imagesList:
-#         image = imageio.imread(filename)
-#         writer.append_data(image)

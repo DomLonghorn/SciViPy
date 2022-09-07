@@ -12,8 +12,6 @@ from os.path import isfile, join
 #Took 54 mins to run through 415 files for max's data
 
 
-DataFile = open("/home/user/Desktop/Data/Max Data/DataTXT.txt","w")
-InfoFile = open("/home/user/Desktop/Data/Max Data/InfoTXT.txt","w")
 
 
 
@@ -68,11 +66,6 @@ for i in range(len(onlyfiles)):
             count+=1
         else:
             pass
-
-    # for i in range(0, noofdatapoints-2):
-    #         DataFile.write(dataLines[i])
-    # for x in range(2):
-    #         InfoFile.write(infoLines[x])
 
     DataLength = len(dataLines)
 

@@ -8,9 +8,11 @@ mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"    #The directory you
 
 finalShotPath = "/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/" # The directory where you want your Stills/Frames to be saved
 
+ScalarName = "Strain Scaling Factor" #This is the name of the scalar you would like to see in your .CSV file
 
 MaxScalarVal = 0.15 #The value you would like to do the scalar clip from. i.e Only values above this value will be shown.
 
+NoOfFrames = len(onlyfiles) # Number of frames you would like. This default does all of them in the directory, in order 
 ### Creating empty lists ###
 filepaths = []
 datapoints = []
@@ -22,21 +24,21 @@ imagesList = []
 ### Defines the standard clip used to show "extreme" or interesting parts of the data###
 
 
-def MaxClip(reader, ScaVal, opacity=0.05, Range = (0, 0.2)):
+def MaxClip(reader, ScaVal,ScalarName, opacity=0.05, Range = (0, 0.2)):
     
     SetDisplayProperties(Opacity=opacity)
     clip=Clip(Input=reader)
         
     clip.ClipType = 'Scalar'    
-    clip.Scalars =("POINTS",'Strain Scaling Factor')
+    clip.Scalars =("POINTS",ScalarName)
     clip.Value = ScaVal
     clip.Invert = False
 
     display = Show(clip)
 
-    ColourMap = GetColorTransferFunction('Strain Scaling Factor')
-    SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
-    ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
+    ColourMap = GetColorTransferFunction(ScalarName)
+    SetDisplayProperties(ColorArrayName=ScalarName) 
+    ColorBy(display, ('POINTS', ScalarName))
     ColourMap.RescaleTransferFunction(Range)
 
     return clip
@@ -47,17 +49,17 @@ def PointsView(reader):
     return print("Interpolated to points")
 
 ### Colours the points based on a set range ###
+#                       ###
 
-def MaxColour(points, Range = (0, 0.2)):
-    LoadPalette("Black-Body Radiation")
-    SetDisplayProperties(ColorArrayName='Strain Scaling Factor') 
+def MaxColour(points,ScalarName, Range = (0, 0.2)):
+    SetDisplayProperties(ColorArrayName=ScalarName) 
     display = Show(points)
     
-    ColorBy(display, ('POINTS', 'Strain Scaling Factor'))
+    ColorBy(display, ('POINTS', ScalarName))
 
-    ColourMap = GetColorTransferFunction('Strain Scaling Factor')
+    ColourMap = GetColorTransferFunction(ScalarName)
     ColourMap.RescaleTransferFunction(Range)
-    ColourMap.ApplyPreset("Inferno (matplotlib)",True)
+    ColourMap.ApplyPreset("Inferno (matplotlib)",True) ### You can change colour preset here ###
     return print("Coloured data")
     
 ### A function to saved the clipped data if you want to use it later on ###
@@ -81,12 +83,12 @@ def ScreenShot(filepath):
 
 
 ### Connects all the other functions into one ###
-def CrystalVis(reader,ShotPath,opacity=0.05):
+def CrystalVis(reader,ShotPath,ScalarName,opacity=0.05):
     points = PointsView(reader)
     print()
-    MaxColour(points)
+    MaxColour(points,ScalarName)
     print()
-    MaxClip(points,MaxScalarVal,opacity)
+    MaxClip(points,MaxScalarVal,ScalarName,opacity)
 
     ScreenShot(ShotPath)
 
@@ -96,19 +98,19 @@ onlyfiles.sort()
 
 
 ### A final function to create an amount of frames specified
-def FrameCreation(NoOfFrames,File,FilePathForScreenshot,opacity=0.05):
+def FrameCreation(NoOfFrames=len(onlyfiles),File,FilePathForScreenshot,ScalarName,opacity=0.05):
     for i in range(NoOfFrames): #This shows how many 
         #print("Current iteration and file:"+str([i])+" - " + File[i])
         print(File[i])
         reader = OpenDataFile(mypath + File[i]) #This reads the file into the code
         reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
         print(FilePathForScreenshot)
-        CrystalVis(reader,FilePathForScreenshot+File[i],opacity) # This is a compound function that takes all of the mini functions and processes it all here
+        CrystalVis(reader,FilePathForScreenshot+File[i],ScalarName,opacity) # This is a compound function that takes all of the mini functions and processes it all here
 
         ResetSession()
         ### 100 frames takes about 18 mins to process for the Max converted data set (85.3 Mbs each) ###
 
 
-FrameCreation((3),(onlyfiles),finalShotPath,opacity=0.05)
+FrameCreation((NoOfFrames),(onlyfiles),finalShotPath,ScalarName)
 
 

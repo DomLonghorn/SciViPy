@@ -8,39 +8,17 @@ textfile = open("/home/user/Desktop/Data/JOREK_data/150 steps.txt","r")
 
 datapoints = []
 
-ScalarVal = 0.00025
+StanScalarVal = 0.0001
+MaxScalarVal = -0.02
 
 
 
-for x in textfile:
-    lines = x
-    stripnewline = x.rstrip()
-    datapoints.append(stripnewline)
-print(datapoints) 
-noofpoints = len(datapoints)
-
-for i in range(0, 150, 20):
-    CurrentVal = datapoints[i]
-    StringVal = str(CurrentVal)
-
-    #Currentfile = "/home/user/Desktop/Data/JOREK_data/jorek0"+StringVal+".vtk"    
-    Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
-    print(Currentfile)
-    reader = OpenDataFile(Currentfile) #This reads the file into the code
-    reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
-
-    if reader:
-        
-        print("success, current iteration is "+str(i)) #Ensures file has been read successfully 
-    else:
-        print("failed")
-    #Applies the scalar clip #
-     
+def StanClip(reader,ScaVal):
     clip=Clip(Input=reader)
-    # print(clip.ListProperties)
+        
     clip.ClipType = 'Scalar'    
-    clip.Scalars =('POINTS','D_alpha')
-    clip.Value = ScalarVal
+    clip.Scalars =('points','D_alpha')
+    clip.Value = ScaVal
     clip.Invert = False
 
 
@@ -51,26 +29,73 @@ for i in range(0, 150, 20):
     ColorBy(display, ('POINTS', 'Te'))
     display.RescaleTransferFunctionToDataRange(True)
 
-    #Saves the Screenshot by setting up a camera position for the active view
-    # myview = GetActiveView()
-    # myview.CameraPosition = [12, 0, 0]
-    # myview.CameraViewUp = [0, 0, 1]    
 
-    # SaveScreenshot("JOREK_"+StringVal+".png", myview,
-    #     ImageResolution=[1500, 1500])
+
+#Saves the Screenshot by setting up a camera position for the active view
+def StanScreenShot(StrVal):
     
-    # Saves the state file #
+    myview = GetActiveView()
+    myview.CameraPosition = [12, 0, 0]
+    myview.CameraViewUp = [0, 0, 1]    
 
-    # SaveState("jorek"+StringVal+".pvsm")
+    SaveScreenshot("JOREK_"+StrVal+".png", myview,
+        ImageResolution=[1500, 1500])
+def StanSaveState(StrVal):    
+   # Saves the state file #
 
-    # Saves the Data from the specific clip #
+    SaveState("jorek"+StrVal+".pvsm")
 
-    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/jorek "+str(ScalarVal)+" " + StringVal  + ".vtk", proxy=clip,)
+#Saves the Data from the specific clip #
+def StanSaveData(ScaVal,StringVal):
+    SaveData("/home/user/Desktop/Data/JOREK_DATA 2.0/Mos 2.0/jorek"+str(ScaVal)+"" + StringVal  + ".vtk", proxy=None,)
+
+
+def Stan(Reader,ScaVal,StrVal):
+    StanClip(Reader,StrVal)
+    StanScreenShot(StrVal)
+    StanSaveState(StrVal)
+    SaveData(StrVal,ScaVal)
+
+
+def FindDataPoints(textfile):
+    for x in textfile:
+        stripnewline = x.rstrip()
+        datapoints.append(stripnewline)
+    return datapoints
+    
+FindDataPoints(textfile)
+
+
+noofpoints = len(datapoints)
+print(noofpoints)
+for i in range(0,150,10):
+    CurrentVal = datapoints[i]
+    StringVal = str(CurrentVal)
+    Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
+ 
+    
+    
+    # print(Currentfile)
+    reader = OpenDataFile(Currentfile) #This reads the file into the code
+    reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
+
+    if reader:
+        print("success")
+    else:
+        print("failed")
+
+    StanClip(reader,StanScalarVal)
+    # StanScreenShot(StringVal)
+    # StanSaveState(StringVal)
+    # print(StanScalarVal,StringVal)
+
+    StanSaveData(StanScalarVal,StringVal)
+    
+    #Stan(reader,StanScalarVal,StringVal)
 
     ResetSession()
+    
 
-
-    #For the .Csv stuff, you go table to points and then you have to set the x,y and z grid points and recolour it.
-    # can then save to vtk and should still work
+    
 
 textfile.close()

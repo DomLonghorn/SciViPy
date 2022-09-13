@@ -1,17 +1,20 @@
-from tokenize import String
 import numpy as np
 import time
-
 from numpy import Infinity
 
+
+listofpoints = []
+listOfTimesteps = []
+listofnumbers = []
+CleanedOutputs = []
+    FileID = []
 File = open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r')
 with open(r"/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r') as fp:
 
 
     FLength = len(fp.readlines())
 
-    CleanedOutputs = []
-    FileID = []
+    
 
 Range = 607 #The number of time steps to read from a file
 count=0 #Incorporates significanrt figures (see for loop below)
@@ -42,12 +45,6 @@ endval = CleanedOutputs[endindex]
 noofpoints = 150 
 
 initialtimestep = (endval - startval)/noofpoints #Used to determine the value of an equitemporal time step over a given number of pooints
-listofpoints = []
-
-
-
-listOfTimesteps = []
-listofnumbers = []
 
 for i in range(noofpoints): #Creates a temporary timestep that then gets added to an array which is added to the initial value
     DummyTimestep = initialtimestep*i

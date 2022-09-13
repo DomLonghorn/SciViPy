@@ -3,13 +3,11 @@ from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOAD
 import vtk
 
 
-
 textfile = open("/home/user/Desktop/Data/JOREK_data/150 steps.txt","r")
 
 datapoints = []
 
 StanScalarVal = 0.0001
-MaxScalarVal = -0.02
 
 
 
@@ -68,14 +66,11 @@ FindDataPoints(textfile)
 
 noofpoints = len(datapoints)
 print(noofpoints)
-for i in range(0,150,10):
+for i in range(0,3):
     CurrentVal = datapoints[i]
     StringVal = str(CurrentVal)
     Currentfile = "/media/user/Storage1/JOREK_data/jorek0"+StringVal+".vtk"   
- 
     
-    
-    # print(Currentfile)
     reader = OpenDataFile(Currentfile) #This reads the file into the code
     reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
 
@@ -85,17 +80,8 @@ for i in range(0,150,10):
         print("failed")
 
     StanClip(reader,StanScalarVal)
-    # StanScreenShot(StringVal)
-    # StanSaveState(StringVal)
-    # print(StanScalarVal,StringVal)
 
     StanSaveData(StanScalarVal,StringVal)
-    
-    #Stan(reader,StanScalarVal,StringVal)
 
     ResetSession()
-    
-
-    
-
 textfile.close()

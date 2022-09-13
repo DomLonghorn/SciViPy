@@ -7,7 +7,7 @@ listofpoints = []
 listOfTimesteps = []
 listofnumbers = []
 CleanedOutputs = []
-    FileID = []
+FileID = []
 File = open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r')
 with open(r"/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r') as fp:
 

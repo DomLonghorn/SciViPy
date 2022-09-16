@@ -3,7 +3,13 @@
 import glob
 import imageio
 # get the path/directory
-folder_dir = '/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/small gif'
+
+
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
+folder_dir = askdirectory(title='Select Folder') # shows dialog box and return the path
+print(path)  
+# folder_dir = '/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/small gif'
  
 # iterate over files in
 # that directory

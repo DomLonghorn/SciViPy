@@ -5,7 +5,8 @@ from os.path import isfile, join
 
 
 mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"    #The directory you want to create stills from
-
+onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))] #Sorts through your directory to create a list of all of the files
+onlyfiles.sort()
 finalShotPath = "/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/" # The directory where you want your Stills/Frames to be saved
 
 ScalarName = "Strain Scaling Factor" #This is the name of the scalar you would like to see in your .CSV file
@@ -93,14 +94,12 @@ def CrystalVis(reader,ShotPath,ScalarName,opacity=0.05):
     ScreenShot(ShotPath)
 
 ### Adds all the files in the directory into a list and sorts it so it appears in numerical order ###
-onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-onlyfiles.sort()
+
 
 
 ### A final function to create an amount of frames specified
 def FrameCreation(NoOfFrames=len(onlyfiles),File,FilePathForScreenshot,ScalarName,opacity=0.05):
     for i in range(NoOfFrames): #This shows how many 
-        #print("Current iteration and file:"+str([i])+" - " + File[i])
         print(File[i])
         reader = OpenDataFile(mypath + File[i]) #This reads the file into the code
         reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed

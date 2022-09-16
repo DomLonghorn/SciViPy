@@ -1,6 +1,5 @@
-import numpy as np
 import time
-from numpy import Infinity
+
 
 
 listofpoints = []
@@ -8,12 +7,10 @@ listOfTimesteps = []
 listofnumbers = []
 CleanedOutputs = []
 FileID = []
-File = open("/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r')
-with open(r"/home/user/Desktop/JOREK_CLEANED/jorek_times.txt", 'r') as fp:
+File = open("C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\jorek_times.txt",'r')
 
-
-    FLength = len(fp.readlines())
-
+FLength = len(File.readlines())
+print(FLength)
     
 
 Range = 607 #The number of time steps to read from a file
@@ -23,7 +20,7 @@ start = 4000 #Initial value to read
 
 for x in File:
     FullString = x
-
+    print(FullString)
     StringToCut = FullString[0:14]
     FinalString = FullString.replace(StringToCut, "")  #Trims the data into a floating point format to be used in numerical calculations
     SigFigString = FinalString[0:8]
@@ -37,7 +34,7 @@ for x in File:
     count+=1
         
 File.close() 
-
+print(CleanedOutputs)
 startval = CleanedOutputs[1]
 
 endindex = 607

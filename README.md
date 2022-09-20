@@ -1,4 +1,4 @@
-# SciVistaInterns
+# SciViPy
 
 Compilation of scripts to be used for data visualisation produced by Freddie Carlisle and Dom Longhorn with a focus on file conversion and paraview visualisation
 

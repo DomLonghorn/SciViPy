@@ -24,13 +24,14 @@ StanScalarVal = 0.0001
 datapoints = []
 
 def ScalarClip(reader,ScaVal,opacity=0.5,ColourBy = 'Te'):
+    "#Once the clip has been applied, this edits the visuals of it"
+
+
     clip=Clip(Input=reader)  
     clip.ClipType = 'Scalar'    
     clip.Scalars =('points','D_alpha')
     clip.Value = ScaVal
     clip.Invert = False
-
-    #Once the clip has been applied, this edits the visuals of it
     SetDisplayProperties(Opacity=opacity)
     SetDisplayProperties(ColorArrayName=ColourBy) 
     display = Show(clip)
@@ -39,8 +40,9 @@ def ScalarClip(reader,ScaVal,opacity=0.5,ColourBy = 'Te'):
 
     return print("Clipped")
 
-#Saves the Screenshot by setting up a camera position for the active view
 def StanScreenShot(FilePath,CameraPosition = [12,0,0]):
+    "Saves the Screenshot by setting up a camera position for the active view"
+
     myview = GetActiveView()
     myview.CameraPosition = CameraPosition
     myview.CameraViewUp = [0, 0, 1]    
@@ -48,11 +50,12 @@ def StanScreenShot(FilePath,CameraPosition = [12,0,0]):
     SaveScreenshot(FilePath+".png", myview, ImageResolution=[1500, 1500])
     return print("Screenshotted")
 def StanSaveState(FilePath):    
-   # Saves the state file #
+   "Saves the state file"
    SaveState(FilePath+".pvsm")
 
 #Saves the Data from the specific clip #
 def StanSaveData(FilePath):
+    "Saves the Data from the specific clip" 
     SaveData(FilePath+ ".vtk", proxy=None,)
 
 def Stan(Reader,FilePath):

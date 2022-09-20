@@ -80,4 +80,12 @@ for i in range(0,3):
     StanSaveData(StanScalarVal,StringVal)
 
     ResetSession()
+<<<<<<< HEAD:JOREK_VIS_SCRIPT.py
 textfile.close()
+=======
+    
+
+    
+
+textfile.close()
+>>>>>>> 20188b55be6c75e95470ec7491e0be1d57ebc76d:jorek_vis_script.py

@@ -83,8 +83,6 @@ for i in range(len(onlyfiles)):
 
         positionSplit = position.split(" ")
 
-        # print(positionSplit)
-        # print(positionSplit)
         Xposition = positionSplit[x]
         Yposition = positionSplit[x+2]
         Zposition = positionSplit[x+4]
@@ -107,13 +105,8 @@ for i in range(len(onlyfiles)):
 
     count = 0
 
-    # print("X - " + str(len( X_Positions)))
-    # print("Y - " + str(len(Y_Positions)))
-    # print("Z - " + str(len(Z_Positions)))
-    # print("Strain - " + str(len( ScalarStrainFactor)))
     for x in range(DataLength):
         Row = str(X_Positions[x]) + "," + str(Y_Positions[x]) + "," + str(Z_Positions[x]) + "," + str(ScalarStrainFactor[count])  + "\n"
-        # print(count)
         count+=1
         ConvertedFile.write(Row)
     

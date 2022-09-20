@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#Test
 from tkinter import W, Y
 from matplotlib import pyplot as plt
 import numpy as np
@@ -58,14 +58,6 @@ R_out = np.linspace(n["R"].min(), n["R"].max(), 1000)
 Z_out = np.linspace(n["Z"].min(), n["Z"].max(), 1000)
 
 n_cylindrical = n.bout.interpolate_from_unstructured(R=R_out, Z=Z_out)
-#print(n_cylindrical)
-
-# Make some plot as a sanity check
-# plt.figure()
-# n_cylindrical.isel(zeta=12).plot()
-# plt.savefig("n_cylindrical_check.pdf")
-
-
 
 # Interpolate onto Cartesian coordinates
 ########################################
@@ -79,7 +71,6 @@ nZ = 600
 # Note, this method defaults to single-precision output, to reduce memory usage
 # and computation time. This should be fine for visualisation.
 n_Cartesian = n.bout.interpolate_to_cartesian(nX, nY, nZ)
-#print(n_Cartesian)
 
 
 n_Cartesian_results = n_Cartesian.values
@@ -98,32 +89,6 @@ print("opening files")
 
 file = open("/home/user/Desktop/Data/BOUT++ Data/John Data/Saved data(Cartesian).csv","w")        
 writer = csv.writer(file)
-
-
-
-
-# Make some plot as a sanity check
-# Interpolation artifacts (?) can cause negative densities so set vmin=0.0 to
-# get sensible color scale.
-
-
-
-# plt.figure()
-# n_Cartesian.isel(Z=nZ).plot()
-# # plt.savefig("n_Cartesian_check_XY.pdf")
-# plt.show()
-
-# plt.figure()
-# n_Cartesian.isel(Y=nY // 2).plot()
-# plt.savefig("n_Cartesian_check_XZ.pdf")
-
-
-# plt.figure()
-# n_Cartesian.isel(X=nX // 2).plot()
-# # # plt.savefig("n_Cartesian_check_YZ.pdf")
-# # # plt.show()
-
-# print(n)
 
 #Defining a function to create string arrays from coordinates to write to the file easily
 

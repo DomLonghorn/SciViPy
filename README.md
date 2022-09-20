@@ -10,7 +10,8 @@ Compilation of scripts to be used for data visualisation produced by Freddie Car
 **gif_maker:**
     Takes a series of generated screenshots and outputs them into a GIF for easy visualisation of temporal data 
 **jorek_vis_script:**
-    Takes already simulated data produced using JOREK code and automates the paraview visualisation process. There are parameters within the code that can be changed in order to modify the resulting output files. 
+    Takes already simulated data produced using JOREK code and automates the paraview visualisation process. There are parameters within the code that can be changed in order to modify the resulting output files. ![Screenshot (58)](https://user-images.githubusercontent.com/110162827/191276969-16926ce2-cdf6-45c2-8770-bf94929f8870.png)
+
 **time_reader:**
     Takes in a .txt file containing a list of timesteps for a given data set and ensures that they are linearly replaced so that smooth animations can be produced with ease using paraview 
 **xyz_to_csv:**

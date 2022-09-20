@@ -14,4 +14,4 @@ Compilation of scripts to be used for data visualisation produced by Freddie Car
 **time_reader:**
     Takes in a .txt file containing a list of timesteps for a given data set and ensures that they are linearly replaced so that smooth animations can be produced with ease using paraview \
 **xyz_to_csv:**
-    Reads data from the .xyz file format (commonly used for ovito data) and outputs to a .csv filetype for use elsewhere \
+    Reads data from the .xyz file format (commonly used for ovito data) and outputs to a .csv filetype for use elsewhere 

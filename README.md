@@ -2,7 +2,7 @@
 
 Compilation of scripts to be used for data visualisation produced by Freddie Carlisle and Dom Longhorn with a focus on file conversion and paraview visualisation
 
-**BOUT_CARTESIAN_CONVERT**: 
+**bout_cartesian_convert**: 
     Made in collaboration with the XBOUT project and John Omotani (UKAEA)
     This script will take a BOUT++ dataset and will use pre-existing xbout interpolation routines to convert data into a cartesian format so that it can be read into software such as paraview. The current output is to a .csv file and can be modified to extract different variables as required. This process is VERY memory intensive however so ensure the script is ran on a machine with enough RAM ![Clip of XBout](https://user-images.githubusercontent.com/64920607/191275860-8a3a2c59-a197-4296-9c45-fcc3e119485e.png)
 **crystal_vis_script:**

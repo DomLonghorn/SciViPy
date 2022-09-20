@@ -1,6 +1,7 @@
 
 from paraview.simple import *
-from paraview.servermanager import * #MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
+# MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
+from paraview.servermanager import *
 import vtk
 from os import listdir
 from os.path import isfile, join
@@ -8,10 +9,12 @@ from os.path import isfile, join
 
 mypath = "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\Jorek Data\\"
 
-datapoints = [f for f in listdir(mypath) if isfile(join(mypath, f))] #Sorts through your directory to create a list of all of the files
+# Sorts through your directory to create a list of all of the files
+datapoints = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 datapoints.sort()
 
-finalShotPath = "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\Screenshot\\" # The directory where you want your Stills/Frames to be saved
+# The directory where you want your Stills/Frames to be saved
+finalShotPath = "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\Screenshot\\"
 
 NoOfFrames = len(datapoints)
 
@@ -23,69 +26,69 @@ StanScalarVal = 0.0001
 
 datapoints = []
 
-def ScalarClip(reader,ScaVal,opacity=0.5,ColourBy = 'Te'):
+
+def ScalarClip(reader, ScaVal, opacity=0.5, ColourBy='Te'):
     "#Once the clip has been applied, this edits the visuals of it"
 
-
-    clip=Clip(Input=reader)  
-    clip.ClipType = 'Scalar'    
-    clip.Scalars =('points','D_alpha')
+    clip = Clip(Input=reader)
+    clip.ClipType = 'Scalar'
+    clip.Scalars = ('points', 'D_alpha')
     clip.Value = ScaVal
     clip.Invert = False
     SetDisplayProperties(Opacity=opacity)
-    SetDisplayProperties(ColorArrayName=ColourBy) 
+    SetDisplayProperties(ColorArrayName=ColourBy)
     display = Show(clip)
     ColorBy(display, ('POINTS', ColourBy))
     display.RescaleTransferFunctionToDataRange(True)
 
     return print("Clipped")
 
-def StanScreenShot(FilePath,CameraPosition = [12,0,0]):
+
+def StanScreenShot(FilePath, CameraPosition=[12, 0, 0]):
     "Saves the Screenshot by setting up a camera position for the active view"
 
     myview = GetActiveView()
     myview.CameraPosition = CameraPosition
-    myview.CameraViewUp = [0, 0, 1]    
+    myview.CameraViewUp = [0, 0, 1]
 
     SaveScreenshot(FilePath+".png", myview, ImageResolution=[1500, 1500])
     return print("Screenshotted")
-def StanSaveState(FilePath):    
-   "Saves the state file"
-   SaveState(FilePath+".pvsm")
+
+
+def StanSaveState(FilePath):
+    "Saves the state file"
+    SaveState(FilePath+".pvsm")
 
 #Saves the Data from the specific clip #
-def StanSaveData(FilePath):
-    "Saves the Data from the specific clip" 
-    SaveData(FilePath+ ".vtk", proxy=None,)
 
-def Stan(Reader,FilePath):
-    StanClip(Reader,FilePath)
+
+def StanSaveData(FilePath):
+    "Saves the Data from the specific clip"
+    SaveData(FilePath + ".vtk", proxy=None,)
+
+
+def Stan(Reader, FilePath):
+    StanClip(Reader, FilePath)
     StanScreenShot(FilePath)
     StanSaveState(FilePath)
     SaveData(FilePath)
 
-for i in range(0,3):
-    CurrentFile = mypath + datapoints[i] 
-    
-    reader = OpenDataFile(Currentfile) #This reads the file into the code
-    reader.GetPointDataInformation() #This processes the data arrays within the vtk file, allowing them to be processed
+
+for i in range(0, 3):
+    CurrentFile = mypath + datapoints[i]
+
+    reader = OpenDataFile(Currentfile)  # This reads the file into the code
+    # This processes the data arrays within the vtk file, allowing them to be processed
+    reader.GetPointDataInformation()
 
     if reader:
         print("success")
     else:
         print("failed")
 
-    StanClip(reader,StanScalarVal)
+    StanClip(reader, StanScalarVal)
 
-    StanSaveData(StanScalarVal,StringVal)
+    StanSaveData(StanScalarVal, StringVal)
 
     ResetSession()
-<<<<<<< HEAD:JOREK_VIS_SCRIPT.py
 textfile.close()
-=======
-    
-
-    
-
-textfile.close()
->>>>>>> 20188b55be6c75e95470ec7491e0be1d57ebc76d:jorek_vis_script.py

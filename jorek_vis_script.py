@@ -24,8 +24,6 @@ ScalarToColourBy = "Te"
 
 StanScalarVal = 0.0001
 
-datapoints = []
-
 
 def ScalarClip(reader, ScaVal, opacity=0.5, ColourBy='Te'):
     "#Once the clip has been applied, this edits the visuals of it"
@@ -74,21 +72,26 @@ def Stan(Reader, FilePath):
     SaveData(FilePath)
 
 
-for i in range(0, 3):
+for i in range(1, 5):
     CurrentFile = mypath + datapoints[i]
 
-    reader = OpenDataFile(Currentfile)  # This reads the file into the code
+    reader = OpenDataFile(CurrentFile)  # This reads the file into the code
     # This processes the data arrays within the vtk file, allowing them to be processed
     reader.GetPointDataInformation()
 
+    CADreader = OpenDataFile(
+        "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\Orientated Mast Model.obj")
+    CADreader.GetPointDataInformation()
+    display = Show(CADreader)
     if reader:
         print("success")
     else:
         print("failed")
 
-    StanClip(reader, StanScalarVal)
+    ScalarClip(reader, StanScalarVal)
 
-    StanSaveData(StanScalarVal, StringVal)
+    StanScreenShot(finalShotPath+datapoints[i])
+
+    print("Session finished")
 
     ResetSession()
-textfile.close()

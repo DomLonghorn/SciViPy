@@ -1,7 +1,3 @@
-
-
-
-
 from paraview.simple import *
 from paraview.servermanager import *
 import vtk

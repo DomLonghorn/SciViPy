@@ -6,7 +6,8 @@ Compilation of scripts to be used for data visualisation produced by Freddie Car
     Made in collaboration with the XBOUT project and John Omotani (UKAEA)
     This script will take a BOUT++ dataset and will use pre-existing xbout interpolation routines to convert data into a cartesian format so that it can be read into software such as paraview. The current output is to a .csv file and can be modified to extract different variables as required. This process is VERY memory intensive however so ensure the script is ran on a machine with enough RAM ![Clip of XBout](https://user-images.githubusercontent.com/64920607/191275860-8a3a2c59-a197-4296-9c45-fcc3e119485e.png) \
 **crystal_vis_script:**
-    Takes simulated materials data which has been converted to a paraview readable format (See xyz_to_csv.py) and performs the relevant visualisation methods in order to produce a visualisation of interesting properties. As with the JOREK_VIS_SCRIPT, the parameters can be modified to achieve desired outputs. \![image](https://user-images.githubusercontent.com/110162827/191305329-ae1cb5f3-8ef7-4242-8384-5acf653c25c3.png)
+    Takes simulated materials data which has been converted to a paraview readable format (See xyz_to_csv.py) and performs the relevant visualisation methods in order to produce a visualisation of interesting properties. As with the JOREK_VIS_SCRIPT, the parameters can be modified to achieve desired outputs. ![CrystalVis](https://user-images.githubusercontent.com/64920607/191737728-f1614f16-05b6-4342-a626-0589d4fa47a5.png) \
+
 
 **gif_maker:**
     Takes a series of generated screenshots and outputs them into a GIF for easy visualisation of temporal data \

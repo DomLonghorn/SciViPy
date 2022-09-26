@@ -1,5 +1,7 @@
 # SciViPy
 
+Covered under the Mozilla Public License 2.0
+
 Compilation of scripts to be used for data visualisation produced by Freddie Carlisle and Dom Longhorn with a focus on file conversion and paraview visualisation
 
 **bout_cartesian_convert**: 

@@ -86,7 +86,6 @@ for i in range(20):
     reader.GetPointDataInformation()
     print("Loading CAD")
 
-    sleep(5)
 
     # CADreader = OpenDataFile(CAD_path)
     # CADreader.GetPointDataInformation()

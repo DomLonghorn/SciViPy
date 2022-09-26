@@ -109,7 +109,7 @@ def CrystalVis(reader, ShotPath, ScalarName, opacity=0.05):
 
 
 # A final function to create an amount of frames specified
-def FrameCreation(NoOfFrames=len(onlyfiles), File, FilePathForScreenshot, ScalarName, opacity=0.05):
+def FrameCreation(, File, FilePathForScreenshot, ScalarName,NoOfFrames=len(onlyfiles), opacity=0.05):
     for i in range(NoOfFrames):  # This shows how many
         print(File[i])
         # This reads the file into the code

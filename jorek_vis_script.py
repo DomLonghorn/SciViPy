@@ -1,5 +1,5 @@
 from paraview.simple import *
-from paraview.servermanager import *  # MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
+from paraview.servermanager import *
 import vtk
 from os import listdir
 from os.path import isfile, join
@@ -59,15 +59,15 @@ def StanScreenShot(FilePath, CameraPosition=[12, 0, 0]):
 def StanSaveState(FilePath):
     "Saves the state file"
     SaveState(FilePath + ".pvsm")
-
-
 # Saves the Data from the specific clip #
 
 
 def StanSaveData(FilePath):
     "Saves the Data from the specific clip"
     SaveData(
-        FilePath + ".vtk", proxy=None,
+
+        FilePath + ".vtk",
+        proxy=None,
     )
 
 
@@ -91,13 +91,14 @@ for i in range(20):
     # CADreader.GetPointDataInformation()
     # print("Showing CAD")
     # Show(CADreader)
-
+    
     if reader:
         print("success")
     else:
         print("failed")
 
     display = ScalarClip(reader, StanScalarVal)
+
 
     StanScreenShot(finalShotPath + datapoints[i])
     print("Session finished")

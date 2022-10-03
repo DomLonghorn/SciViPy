@@ -59,15 +59,15 @@ def StanScreenShot(FilePath, CameraPosition=[12, 0, 0]):
 def StanSaveState(FilePath):
     "Saves the state file"
     SaveState(FilePath + ".pvsm")
+
+
 # Saves the Data from the specific clip #
 
 
 def StanSaveData(FilePath):
     "Saves the Data from the specific clip"
     SaveData(
-
-        FilePath + ".vtk",
-        proxy=None,
+        FilePath + ".vtk", proxy=None,
     )
 
 
@@ -78,7 +78,7 @@ def Stan(Reader, FilePath):
     SaveData(FilePath)
 
 
-for i in range(20):
+for i in range(150):
     CurrentFile = mypath + datapoints[i]
     print("loading file")
     reader = OpenDataFile(CurrentFile)  # This reads the file into the code
@@ -86,19 +86,17 @@ for i in range(20):
     reader.GetPointDataInformation()
     print("Loading CAD")
 
+    CADreader = OpenDataFile(CAD_path)
+    CADreader.GetPointDataInformation()
+    print("Showing CAD")
+    Show(CADreader)
 
-    # CADreader = OpenDataFile(CAD_path)
-    # CADreader.GetPointDataInformation()
-    # print("Showing CAD")
-    # Show(CADreader)
-    
     if reader:
         print("success")
     else:
         print("failed")
 
     display = ScalarClip(reader, StanScalarVal)
-
 
     StanScreenShot(finalShotPath + datapoints[i])
     print("Session finished")

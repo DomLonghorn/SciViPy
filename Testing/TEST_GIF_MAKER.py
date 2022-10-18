@@ -1,36 +1,32 @@
 # import required module
+from ast import Assert
 import glob
 import imageio.v2 as imageio
-import pathlib
-
-# get the path/directory
-
+from pathlib import Path
 
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
+from gif_maker import Gif_Maker
 
-# folder_dir = askdirectory(title="Select Folder")  # shows dialog box and return the path
-# folder_dir = '/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/small gif'
-
-# iterate over files in
-# that directory
+filepath = "C:\\Users\FWKCa\OneDrive\Desktop\SciViPy\Testing\Test Images\\"
 
 
 def Test_GIF(filename):
+    """
+    This function, takes a file name and then creates a GIF
 
-    imagesList = []
-    for images in glob.iglob(f"{filename}/*"):
+    It then test's whether the correct file path is created by the GIF function
 
-        # check if the image ends with png
-        if images.endswith(".png"):
-            imagesList.append(images)
-    imagesList.sort()
+    And should return an assertion error if not.
 
-    with imageio.get_writer(filename + "/TEST_GIF.gif", mode="I") as writer:
-        for filename in imagesList:
-            image = imageio.imread(filename)
-            writer.append_data(image)
+    No way of checking if the GIF created is the correct GIF, known issue - currently working on it
+
+    """
+    Gif_Maker(filename)
+
+    filepath = Path(filename + "TEST_GIF.gif")
+    print(filepath.exists())
+    assert filepath.exists()
 
 
-Test_GIF(".../Test Images")
-assert pathlib.Path.exists("Test Images" + "TEST_GIF.gif")
+Test_GIF(filepath)

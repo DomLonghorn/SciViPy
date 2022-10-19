@@ -1,16 +1,29 @@
-from paraview.simple import *
+""" Script which takes in large 3D datasets of .CSV type and exports .png frames of them for further visualisation.
 
-# MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
-from paraview.servermanager import *
+    This script, when run in a paraview shell, will take a collection of data points in a .CSV format and produce a formatted clipped
+    set of visualised frames for each data point within the file. This script particularly is tailored at materials such as irradiated
+    zirconium. An example of this, for said zirconium, would be running FrameCreation(/home/user/Desktop/Data/Max Data/CSVData/,/home/user/Desktop/Data/Max Data/CSVData/Frames, Temp)
+    Which would produce a set of frames for all the data given in the directory for which their primary attribute shown is
+    the scalar variable Temp. This would be seen as the crystal structure with major temperature spots seen within the crystal
+    and coloured accordingly. (See README image)
+
+    Lisence: MPL-2.0 
+
+"""
+
+from paraview.simple import *
+from paraview.servermanager import *  # MAKE SURE TO INCLUDE THIS MODULE WHEN LOADING VTK FILES!!!!!!!!!!!!
 from os import listdir
 from os.path import isfile, join
 
 
 # The directory you want to create stills from
-mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
 # Sorts through your directory to create a list of all of the files
+mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 onlyfiles.sort()
+
+
 # The directory where you want your Stills/Frames to be saved
 finalShotPath = (
     "/home/user/Desktop/Data/Max Data/ConvertedData/DataAndScreenshots/Screenshots/"
@@ -20,7 +33,7 @@ finalShotPath = (
 ScalarName = "Strain Scaling Factor"
 
 # The value you would like to do the scalar clip from. i.e Only values above this value will be shown.
-MaxScalarVal = 0.15
+ScalarVal = 0.15
 
 # Number of frames you would like. This default does all of them in the directory, in order
 NoOfFrames = len(onlyfiles)
@@ -35,10 +48,35 @@ imagesList = []
 ### Defines the standard clip used to show "extreme" or interesting parts of the data###
 
 
-def MaxClip(reader, ScaVal, ScalarName, opacity=0.05, Range=(0, 0.2)):
+def MaxClip(
+    MyData,
+    ScaVal,
+    ScalarName,
+    ColourRange,
+    opacity=0.05,
+):
+
+    """Sets the data to the correct view, with opacity and viewing only the scalar value wanted
+
+    Sets the dataset imported to having the correct opacity as well as clipping the data to only show the specified scarlar variable
+    and only from the Scalar value specified and up. This also sets an average colour array on to it to colour it specified based on the
+    variable values given
+
+    Args:
+        MyData: The data which has been imported in, usually in paraview documentation under the name reader.
+        ScaVal: The value for which you would like to clip from for your scalar
+        ScarlarName: The name of the variable you would like clip with e.g "Temp"
+        Range: The range over which the colour scale will be set. E.g ColourRange = (0,0.2)
+        Opacity: The opacity wanted for the clipped data. Default value = 0.05
+
+    Returns:
+        The clipped view within paraview with set colours and set opacity
+
+
+    """
 
     SetDisplayProperties(Opacity=opacity)
-    clip = Clip(Input=reader)
+    clip = Clip(Input=MyData)
 
     clip.ClipType = "Scalar"
     clip.Scalars = ("POINTS", ScalarName)
@@ -50,9 +88,7 @@ def MaxClip(reader, ScaVal, ScalarName, opacity=0.05, Range=(0, 0.2)):
     ColourMap = GetColorTransferFunction(ScalarName)
     SetDisplayProperties(ColorArrayName=ScalarName)
     ColorBy(display, ("POINTS", ScalarName))
-    ColourMap.RescaleTransferFunction(Range)
-
-    return clip
+    ColourMap.RescaleTransferFunction(ColourRange)
 
 
 ### Turns the .CSV to actual points to be seen ###
@@ -109,7 +145,7 @@ def CrystalVis(reader, ShotPath, ScalarName, opacity=0.05):
     print()
     MaxColour(points, ScalarName)
     print()
-    MaxClip(points, MaxScalarVal, ScalarName, opacity)
+    MaxClip(points, ScalarVal, ScalarName, opacity)
 
     ScreenShot(ShotPath)
 
@@ -118,14 +154,32 @@ def CrystalVis(reader, ShotPath, ScalarName, opacity=0.05):
 
 
 # A final function to create an amount of frames specified
-def FrameCreation(File, FilePathForScreenshot, ScalarName, opacity=0.05, NoOfFrames=len(onlyfiles)):
+def FrameCreation(
+    File, FilePathForScreenshot, ScalarName, opacity=0.05, NoOfFrames=len(onlyfiles)
+):
+    """Converts 3D datasets to frames
+
+    Obtains 3D datasets in .CSV format and converts them into frames by putting them
+    into a paraview project and outputting frames of the data.
+
+    Args:
+        File: Your filepath for your data in .CSV format
+        FilePathForScreenshot: Your directory you would like your screenshots to end up in
+        ScalarName: The scalar you would like to act on to create your frames
+        Opacity: Allows you to set an opacity for your data (default at 0.05)
+        NoOfFrames: Allows you to specifiy how many frames of data you would like to create (Default: all of them)
+
+    Returns:
+        A collection of frames of the data inputted in .png format in the directory specified to save.
+
+    """
+
     for i in range(NoOfFrames):  # This shows how many
         print(File[i])
         # This reads the file into the code
         reader = OpenDataFile(mypath + File[i])
         # This processes the data arrays within the vtk file, allowing them to be processed
         reader.GetPointDataInformation()
-        print(FilePathForScreenshot)
         # This is a compound function that takes all of the mini functions and processes it all here
         CrystalVis(reader, FilePathForScreenshot + File[i], ScalarName, opacity)
 

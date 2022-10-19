@@ -67,7 +67,8 @@ def StanSaveState(FilePath):
 def StanSaveData(FilePath):
     "Saves the Data from the specific clip"
     SaveData(
-        FilePath + ".vtk", proxy=None,
+        FilePath + ".vtk",
+        proxy=None,
     )
 
 

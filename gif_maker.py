@@ -1,3 +1,9 @@
+"""Script which takes a series of genereated images and arranges them sequentially into a gif.
+
+This project, including this file, is licensed under MPL-2.0. It is important to note that  
+the only accepted filetype is .png, although this is planned to be expanded in later updates
+"""
+
 # import required module
 import glob
 import os
@@ -7,6 +13,12 @@ from tkinter.filedialog import askdirectory
 
 
 def Gif_make():
+    """Main function to execute the gif making procedure. Currently only accepts .png files.
+
+
+    Returns:
+        A gif made up of the .png files found in the target directory saved in the target directory
+    """
     folder_dir = askdirectory(
         title="Select Folder"
     )  # shows dialog box and return the path

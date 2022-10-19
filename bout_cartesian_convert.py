@@ -1,3 +1,12 @@
+"""Script to read in simulated BOUT++ data, performs cartesian interpolation and saves to .csv file.
+
+Made with help from John Omotani at the UKAEA This script takes advantage of the pre-exisiting 
+xbout analysis routines to load in a netcdf file and to interpolate from field-aligned coordinates to 
+cartesian and save the result. This process is very memory intensive and takes a decent amount of time
+to complete, so it is reccomended to only run this script on a high-powered machine/cluster.
+
+Licensed under MPL-2.0
+"""
 #!/usr/bin/env python3
 # Test
 from tkinter import W, Y
@@ -94,10 +103,24 @@ writer = csv.writer(file)
 # Defining a function to create string arrays from coordinates to write to the file easily
 
 
-def StringMake(String):
+def StringMake(inputvar):
+    """Changes type of a variable from numerical to string.
+
+    Runs through the entire array for the given variable and stores each individual item as
+    a string element as opposed to some form of numerical value. This is done for later ease when
+    saving the file.
+
+    Args:
+      inputvar:
+        Variable which you want to convert from a numerical list into a list of strings
+        
+
+    Returns:
+        An array of strings which in content match the inputvar but with a change of type
+    """
     FinalString = []
-    for i in range(len(String)):
-        ListAddition = str(String[i])
+    for i in range(len(inputvar)):
+        ListAddition = str(inputvar[i])
 
         ListStrip = ListAddition.split("(")
         ListStrip2 = ListStrip[2].split(")")

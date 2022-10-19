@@ -1,3 +1,9 @@
+"""Script which takes a series of genereated images and arranges them sequentially into a gif.
+
+This project, including this file, is licensed under MPL-2.0. It is important to note that  
+the only accepted filetype is .png, although this is planned to be expanded in later updates
+"""
+
 # import required module
 import glob
 import os
@@ -7,8 +13,7 @@ from tkinter.filedialog import askdirectory
 
 
 def Gif_make():
-    """Function to take a series of screenshots from a directory and package them together in a .gif format
-    Currently requires all images to be .png format
+    """Main function to execute the gif making procedure. Currently only accepts .png files.
 
 
     Returns:

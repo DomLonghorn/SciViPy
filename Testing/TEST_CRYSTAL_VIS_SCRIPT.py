@@ -107,7 +107,7 @@ def crystal_script(Filepath):
 
     # A final function to create an amount of frames specified
 
-    def FrameCreation(NoOfFrames=len(onlyfiles), File, FilePathForScreenshot, ScalarName, opacity=0.05):
+    def FrameCreation( File, FilePathForScreenshot, ScalarName, opacity=0.05, NoOfFrames=len(onlyfiles),):
         for i in range(NoOfFrames):  # This shows how many
             print(File[i])
             # This reads the file into the code

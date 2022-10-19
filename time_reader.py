@@ -1,3 +1,13 @@
+"""Function which will read a file and return equidistant readings from values within the file.
+
+The main purpose of this script is to extract temporal data when equidistant time steps weren't
+initally recorded or were recorded in a nonlinear fashion. This script will take in an input file
+and a number of points to record and will return a text file with the specified number of points
+split equitemporally. This is useful when trying to create gifs from some simulated JOREK data.
+
+Licensed under MPL-2.0
+"""
+
 import time
 
 

@@ -29,9 +29,9 @@ jobs:
     - name: Check formatting with black
       run: |
         pip install black
-        black bout_cartesian_convert.py
-        black crystal_vis_script.py
-        black gif_maker.py
-        black jorek_vis_script.py
-        black time_reader.py
-        black xyz_to_csv.py
+        black --check bout_cartesian_convert.py
+        black --check crystal_vis_script.py
+        black --check gif_maker.py
+        black --check jorek_vis_script.py
+        black --check time_reader.py
+        black --check xyz_to_csv.py

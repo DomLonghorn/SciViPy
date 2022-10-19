@@ -2,7 +2,7 @@
 import glob
 import os
 
-import imageio
+import imageio.v2 as imageio
 
 # get the path/directory
 
@@ -16,7 +16,7 @@ folder_dir = askdirectory(
 print(folder_dir)
 
 
-def Gif_Maker(filename, Duration=0.5, GIF_NAME="/Jorek.gif"):
+def Gif_Maker(filename, Duration=2, GIF_NAME="/Jorek.gif"):
     """
     This function takes a single file path for your directory with collection of .pngs
 

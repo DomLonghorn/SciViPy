@@ -190,6 +190,19 @@ def ScreenShot(filepath, Position=[1000, 800, 800], Resolution=[1500, 1500]):
 
 ### Connects all the other functions into one ###
 def CrystalVis(reader, ShotPath, ScalarName, opacity=0.05):
+    """This is just a combination function
+
+    This function takes in all previous functions and combines them
+
+    Args:
+        reader: This is the data within the paraview client you are acting on. This will have been loaded in with a reader.
+        ShotPath:   This is the filepath you wish to save your screenshots too
+        Scalarname: The name of the scalar you want to clip your data by. (e.g temp, rho)
+        Opacity:    The opacity by which you want to show the data at if you wish to stack multiple data points together. (Default = 0.05)
+
+    Returns:
+        This returns the final product as well as saving the screenshot of your data to the chosen directory.
+    """
     points = PointsView(reader)
     print()
     MaxColour(points, ScalarName)

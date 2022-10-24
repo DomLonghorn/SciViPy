@@ -174,4 +174,5 @@ for i in range(len(StringX)):
             if StringNan[count] != 0:
                 file.write(Row)
             count += 1
+
 file.close()

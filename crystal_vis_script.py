@@ -71,8 +71,6 @@ def MaxClip(
 
     Returns:
         The clipped view within paraview with set colours and set opacity
-
-
     """
 
     SetDisplayProperties(Opacity=opacity)
@@ -94,9 +92,22 @@ def MaxClip(
 ### Turns the .CSV to actual points to be seen ###
 
 
-def PointsView(reader):
+def PointsView(Data):
+    """Creates 3D data points from .csv file
+
+    This performs the table to points function in paraview which converts the table of .csv values into actual datapoints in paraview
+    which means that they can be acted upon by paraview functions
+
+    Args:
+        Data: This is the read in data which you are actually converting from .csv to datapoints
+
+    Returns:
+        The data in actual viewable points in the paraview instance as well as printing to the console that it has
+        finished the process.
+
+    """
     TableToPoints(
-        Input=reader, XColumn="X Position", YColumn="Y Position", ZColumn="Z Position"
+        Input=Data, XColumn="X Position", YColumn="Y Position", ZColumn="Z Position"
     )
 
     return print("Interpolated to points")
@@ -106,7 +117,22 @@ def PointsView(reader):
 #                       ###
 
 
-def MaxColour(points, ScalarName, Range=(0, 0.2)):
+def MaxColour(points, ScalarName, Range=(0, 0.2), Preset="Inferno (matplotlib)"):
+    """Colours the data within the paraview view.
+
+    This function takes the datapoints within the paraview client and colours them accordingly based on
+    parameters below. This is a more specific colouring tool than within the clipping function.
+
+    Args:
+        points: The datapoints imported in the paraview client you want to colour
+        ScalarName: The name of the variable you would like clip with e.g "Temp"
+        Range: The range over which the colour scale will be set. E.g ColourRange = (0,0.2)
+        Preset: The name of a colour preset palette in Paraview. Default = Inferno (matplotlib)
+
+    Returns:
+        This returns the points coloured in the paraview view to the specifications given as well
+        as a printed statement confirming it's finished. (primarily a debugging tool)
+    """
     SetDisplayProperties(ColorArrayName=ScalarName)
     display = Show(points)
 
@@ -115,7 +141,7 @@ def MaxColour(points, ScalarName, Range=(0, 0.2)):
     ColourMap = GetColorTransferFunction(ScalarName)
     ColourMap.RescaleTransferFunction(Range)
     # You can change colour preset here ###
-    ColourMap.ApplyPreset("Inferno (matplotlib)", True)
+    ColourMap.ApplyPreset(Preset, True)
     return print("Coloured data")
 
 
@@ -123,24 +149,60 @@ def MaxColour(points, ScalarName, Range=(0, 0.2)):
 
 
 def savedata(filepath):
+    """Saves the data
+    Performs the SaveData function within paraview, saving the data currently in the active view to the desired
+    filepath
+
+    Args:
+        filepath: The filepath you would like to save the data too
+
+    Returns:
+        Returns a statement saying the data had been saved (Mostly a debugging tool).
+    """
     SaveData(filepath)
 
     return print("Saved Data")
 
 
 ### Saves the screenshot of the current view ###
-def ScreenShot(filepath):
+def ScreenShot(filepath, Position=[1000, 800, 800], Resolution=[1500, 1500]):
+    """Saves a frame displaying the current data
+    Takes the current active data/view within the paraview client and frames it from a position and then
+    saves the screenshot to the desired filepath with a given resolution
+
+    Args:
+        filepath: The filepath you would like to save the screenshot to
+        Position: The position within the space in x,y,z coordinates to take the screenshot from within the paraview view space. Default value = [1000,800,800]
+        Resolution: The wanted resolution of the saved image. Default = [1500,1500]
+
+    Returns:
+        This returns your saved frame in the given location as well as printing that the screenshot is saved.
+
+    """
     myview = GetActiveView()
-    myview.CameraPosition = [1000, 800, 800]
+    myview.CameraPosition = Position
     myview.CameraViewUp = [0, 0, 1]
 
-    SaveScreenshot(filepath + ".png", myview, ImageResolution=[1500, 1500])
+    SaveScreenshot(filepath + ".png", myview, ImageResolution=Resolution)
 
     return print("Saved Screenshot")
 
 
 ### Connects all the other functions into one ###
 def CrystalVis(reader, ShotPath, ScalarName, opacity=0.05):
+    """This is just a combination function
+
+    This function takes in all previous functions and combines them
+
+    Args:
+        reader: This is the data within the paraview client you are acting on. This will have been loaded in with a reader.
+        ShotPath:   This is the filepath you wish to save your screenshots too
+        Scalarname: The name of the scalar you want to clip your data by. (e.g temp, rho)
+        Opacity:    The opacity by which you want to show the data at if you wish to stack multiple data points together. (Default = 0.05)
+
+    Returns:
+        This returns the final product as well as saving the screenshot of your data to the chosen directory.
+    """
     points = PointsView(reader)
     print()
     MaxColour(points, ScalarName)

@@ -16,13 +16,18 @@ folder_dir = askdirectory(
 print(folder_dir)
 
 
-def Gif_Maker(filename, Duration=2, GIF_NAME="/Jorek.gif"):
-    """
-    This function takes a single file path for your directory with collection of .pngs
+def Gif_Maker(filename, Duration=2, GIF_Name="/Jorek.gif"):
+    """Creates a gif based off a set of given .pngs
 
-    And then sorts them and then creates a GIF with duration equal to parameter given with default, 0.5 second duration.
+    This functions takes a directory and turns all .pngs within it into a gif with a set duration per slide.
 
-    It then outputs the gif in the same directory
+    Args:
+        filename:   This is the filepath for the directory which should contain .pngs to be created.
+        Duration:   This will set the duration for each frame within the gif. Default value is set to be 2.
+        GIF_name:   This is the name of the gif to be added to the directory witht the images.
+
+    Returns:
+        This function returns the created GIF in the directory specified for the images.
 
     """
     imagesList = []

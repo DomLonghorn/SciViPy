@@ -1,7 +1,7 @@
 time\_reader module
 ===================
 
-.. automodule:: time_reader
+.. automodule:: SciViPy.time_reader
    :members:
    :undoc-members:
    :show-inheritance:

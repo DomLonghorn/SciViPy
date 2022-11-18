@@ -19,7 +19,6 @@ from tkinter.filedialog import askdirectory
 folder_dir = askdirectory(
     title="Select Folder"
 )  # shows dialog box and returns the path
-print(folder_dir)
 
 
 def Gif_Maker(filename, Duration=2, GIF_Name="/Jorek.gif"):
@@ -44,11 +43,10 @@ def Gif_Maker(filename, Duration=2, GIF_Name="/Jorek.gif"):
             imagesList.append(images)
     imagesList.sort()
 
-    with imageio.get_writer(filename + GIF_NAME, mode="I", duration=Duration) as writer:
+    with imageio.get_writer(filename + GIF_Name, mode="I", duration=Duration) as writer:
         for filename in imagesList:
             image = imageio.imread(filename)
             writer.append_data(image)
 
 
 Gif_Maker(folder_dir)
-

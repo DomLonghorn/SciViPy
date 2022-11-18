@@ -12,7 +12,7 @@ from os.path import isfile, join
 # Took 54 mins to run through 415 files for max's data
 
 
-mypath = "/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)"
+mypath = "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\Max Data\\Test data\\"
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 print(onlyfiles)
 
@@ -35,16 +35,10 @@ for i in range(len(onlyfiles)):
 
 for i in range(len(onlyfiles)):
     Data = open(
-        "/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)/"
-        + onlyfiles[i],
+        mypath + onlyfiles[i],
         "r",
     )
     print("iteration -" + str(i))
-
-    for count, line in enumerate(Data):
-        pass
-    print("Total Lines", count + 1)
-    noofdatapoints = count
 
     Data.close()
 
@@ -54,15 +48,13 @@ for i in range(len(onlyfiles)):
     dataLines = []
 
     Data = open(
-        "/home/user/Desktop/Data/Max Data/Max data set 2 (Big boy time)/"
-        + onlyfiles[i],
+        mypath + onlyfiles[i],
         "r",
     )
 
     count = 0  # count reset
 
-    for z in Data:
-        Lines = z
+    for Lines in Data:
         if count <= 1:
             infoLines.append(Lines)
             count += 1
@@ -103,9 +95,7 @@ for i in range(len(onlyfiles)):
         ScalarStrainFactor.append(VonMisesString[0])
 
     ConvertedFile = open(
-        "/home/user/Desktop/Data/Max Data/ConvertedData/Converted - "
-        + namingpaths[i]
-        + ".csv",
+        mypath + namingpaths[i] + ".csv",
         "x",
     )
     writer = csv.writer(ConvertedFile)

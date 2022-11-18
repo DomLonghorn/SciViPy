@@ -12,16 +12,7 @@ filepath = "C:\\Users\FWKCa\OneDrive\Desktop\SciViPy\Testing\Test Images\\"
 
 
 def Test_GIF(filename):
-    """
-    This function, takes a file name and then creates a GIF
-
-    It then test's whether the correct file path is created by the GIF function
-
-    And should return an assertion error if not.
-
-    No way of checking if the GIF created is the correct GIF, known issue - currently working on it
-
-    """
+    """ """
     Gif_Maker(filename)
 
     filepath = Path(filename + "TEST_GIF.gif")

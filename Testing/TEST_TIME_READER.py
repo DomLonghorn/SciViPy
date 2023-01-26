@@ -76,7 +76,6 @@ def time_reader(filename="/jorek_times.txt", noofpoints=150, start=4000, Range=6
         for item in FileID:
             # write each item on a new line
             fp.write("%s\n" % item)
-        print("Done")
 
     fp.close()
 
@@ -84,13 +83,15 @@ def time_reader(filename="/jorek_times.txt", noofpoints=150, start=4000, Range=6
 # test for time_reader:
 def test_time_reader_output_file():
     import os
-
+    file_name = "/TestText.txt"
+    path = os.path.dirname(os.path.realpath(__file__))
+    if os.path.exists(path + file_name):
+        os.remove(path + file_name)
     time_reader(filename="/jorek_times.txt", noofpoints=150, start=4000, Range=607)
 
         # Get the path of the file
-    file_name = "/TestText.txt"
-    path = os.path.dirname(os.path.realpath(__file__))
-    assert os.path.exists(path)
+
+    assert os.path.exists(path + file_name)
     # Check if file exists
 
 test_time_reader_output_file()

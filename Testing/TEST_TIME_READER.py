@@ -86,9 +86,11 @@ def test_time_reader_output_file():
     import os
 
     time_reader(filename="/jorek_times.txt", noofpoints=150, start=4000, Range=607)
-    assert os.path.exists(
-        "/Users/csp/Library/Mobile Documents/com~apple~CloudDocs/Programming/SciViPy/Testing/TestText.txt"
-    )
 
+        # Get the path of the file
+    file_name = "/TestText.txt"
+    path = os.path.dirname(os.path.realpath(__file__))
+    assert os.path.exists(path)
+    # Check if file exists
 
 test_time_reader_output_file()

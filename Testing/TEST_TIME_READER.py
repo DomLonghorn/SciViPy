@@ -1,4 +1,19 @@
 def time_reader(filename="/jorek_times.txt", noofpoints=150, start=4000, Range=607):
+    """Function which will read a file and return equidistant readings from values within the file.
+
+    The main purpose of this script is to extract temporal data when equidistant time steps weren't
+    initally recorded or were recorded in a nonlinear fashion. This script will take in an input file
+    and a number of points to record and will return a text file with the specified number of points
+    split equitemporally. This is useful when trying to create gifs from some simulated JOREK data.
+
+    Licensed under MPL-2.0
+
+    Args:
+        filename (str, optional): _description_. Defaults to "/jorek_times.txt".
+        noofpoints (int, optional): _description_. Defaults to 150.
+        start (int, optional): _description_. Defaults to 4000.
+        Range (int, optional): _description_. Defaults to 607.
+    """
     import time
     import os
 

@@ -1,88 +1,102 @@
-"""Function which will read a file and return equidistant readings from values within the file.
+def time_reader(
+    filename="/Testing/jorek_times.txt", noofpoints=150, start=4000, Range=607
+):
+    """Function which will read a file and return equidistant readings from values within the file.
 
-The main purpose of this script is to extract temporal data when equidistant time steps weren't
-initally recorded or were recorded in a nonlinear fashion. This script will take in an input file
-and a number of points to record and will return a text file with the specified number of points
-split equitemporally. This is useful when trying to create gifs from some simulated JOREK data.
+    The main purpose of this script is to extract temporal data when equidistant time steps weren't
+    initally recorded or were recorded in a nonlinear fashion. This script will take in an input file
+    and a number of points to record and will return a text file with the specified number of points
+    split equitemporally. This is useful when trying to create gifs from some simulated JOREK data.
 
-Licensed under MPL-2.0
-"""
+    Licensed under MPL-2.0
 
-import time
+    Args:
+        filename (str, optional): _description_. Defaults to "/jorek_times.txt".
+        noofpoints (int, optional): _description_. Defaults to 150.
+        start (int, optional): _description_. Defaults to 4000.
+        Range (int, optional): _description_. Defaults to 607.
+    """
+    import time
+    import os
 
+    # Get directory of this file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    dir_list = dir_path.split("\\")
+    if len(dir_list) < 2:
+        dir_list = dir_path.split("\\")
+    dir_list.remove("Scripts")
+    dir_list.append("Testing")
+    new_dir_path = "\\".join(dir_list)
 
-listofpoints = []
-listOfTimesteps = []
-listofnumbers = []
-CleanedOutputs = []
-FileID = []
-File = open(
-    "C:\\Users\\FWKCa\\OneDrive\\Desktop\\Internship stuff\\jorek_times.txt", "r"
-)
+    # File to read
+    file = new_dir_path + filename
+    # File to write
+    output = new_dir_path + "\TestText.txt"
 
-FLength = len(File.readlines())
-print(FLength)
+    # Open file
+    with open(file, "r") as f:
+        # Read lines
+        FLines = f.readlines()
+        # Get length
+        FLength = len(FLines)
 
+    # Create empty lists
+    listofpoints = []
+    listOfTimesteps = []
+    listofnumbers = []
+    CleanedOutputs = []
+    FileID = []
 
-Range = 607  # The number of time steps to read from a file
-count = 0  # Incorporates significanrt figures (see for loop below)
-start = 4000  # Initial value to read
+    # Range
+    count = 0
 
+    # Iterate through lines
+    for x in FLines:
+        FullString = x
+        StringToCut = FullString[0:14]
+        FinalString = FullString.replace(StringToCut, "")
+        SigFigString = FinalString[0:8]
+        StringToConvert = SigFigString.strip()
+        NumString = float(StringToConvert)
+        # print(NumString)
 
-for x in File:
-    FullString = x
-    print(FullString)
-    StringToCut = FullString[0:14]
-    FinalString = FullString.replace(
-        StringToCut, ""
-    )  # Trims the data into a floating point format to be used in numerical calculations
-    SigFigString = FinalString[0:8]
-    StringToConvert = SigFigString.strip()
-    NumString = float(StringToConvert)
+        if count >= 553:
+            NumString = (
+                NumString * 10
+            )  # Used to handle the difference in significant figures within the dataset (probably a more general solution)
 
-    if count >= 553:
-        NumString = (
-            NumString * 10
-        )  # Used to handle the difference in significant figures within the dataset (probably a more general solution)
+        CleanedOutputs.append(NumString)
+        count += 1
 
-    CleanedOutputs.append(NumString)
-    count += 1
+    # Get start value
+    startval = CleanedOutputs[1]
 
-File.close()
-print(CleanedOutputs)
-startval = CleanedOutputs[1]
+    # Get end index
+    endindex = Range
 
-endindex = 607
-endval = CleanedOutputs[endindex]
-noofpoints = 150
+    # Get end value
+    endval = CleanedOutputs[endindex]
 
-initialtimestep = (
-    endval - startval
-) / noofpoints  # Used to determine the value of an equitemporal time step over a given number of pooints
+    # Initial time step
+    initialtimestep = (endval - startval) / noofpoints
 
-for i in range(
-    noofpoints
-):  # Creates a temporary timestep that then gets added to an array which is added to the initial value
-    DummyTimestep = initialtimestep * i
-    listOfTimesteps.append(DummyTimestep)
+    # Iterate through points
+    for i in range(noofpoints):
+        DummyTimestep = initialtimestep * i
+        listOfTimesteps.append(DummyTimestep)
+        listofnumbers.append(startval + listOfTimesteps[i])
 
-    listofnumbers.append(startval + listOfTimesteps[i])
+    for i in range(len(listOfTimesteps)):
+        # Find the value that's closest in the file to the given timestep and give its val
+        closestval = min(
+            enumerate(CleanedOutputs), key=lambda x: abs(x[1] - (listofnumbers[i]))
+        )
+        FileID.append(start + (10 * closestval[0]))
 
+    # Write file
+    with open(output, "w") as fp:
+        for item in FileID:
+            # write each item on a new line
+            fp.write("%s\n" % item)
 
-for i in range(
-    len(listOfTimesteps)
-):  # Finds the value that's closest in the file to the given timestep and gives its val
-    closestval = min(
-        enumerate(CleanedOutputs), key=lambda x: abs(x[1] - (listofnumbers[i]))
-    )
-    FileID.append(4000 + (10 * closestval[0]))
-
-print(FileID)
-
-with open(r"/home/user/Desktop/TEST DATA FOR SCRIPTS/TestText.txt", "w") as fp:
-    for item in FileID:
-        # write each item on a new line
-        fp.write("%s\n" % item)
-    print("Done")
-
-fp.close
+    fp.close()

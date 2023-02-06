@@ -9,7 +9,9 @@ def test_time_reader_output_file():
     path = os.path.dirname(os.path.realpath(__file__))
     if os.path.exists(path + file_name):
         os.remove(path + file_name)
-    time_reader(filename="\jorek_times.txt", noofpoints=150, start=4000, Range=607)
+    time_reader(
+        filename="\jorek_times.txt", noofpoints=150, start=4000, Range=607, Testing=True
+    )
 
     # Get the path of the file
     assert os.path.exists(path + file_name)

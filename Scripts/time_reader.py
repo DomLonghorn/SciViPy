@@ -1,5 +1,9 @@
 def time_reader(
-    filename="/Testing/jorek_times.txt", noofpoints=150, start=4000, Range=607
+    filename="/Testing/jorek_times.txt",
+    noofpoints=150,
+    start=4000,
+    Range=607,
+    Testing=False,
 ):
     """Function which will read a file and return equidistant readings from values within the file.
 
@@ -19,19 +23,24 @@ def time_reader(
     import time
     import os
 
-    # Get directory of this file
+    # Get directory of this file and then changes the
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    dir_list = dir_path.split("\\")
-    if len(dir_list) < 2:
+    if Testing == True:
         dir_list = dir_path.split("\\")
-    dir_list.remove("Scripts")
-    dir_list.append("Testing")
-    new_dir_path = "\\".join(dir_list)
+        if len(dir_list) < 2:
+            dir_list = dir_path.split("\\")
+        dir_list.remove("Scripts")
+        dir_list.append("Testing")
+        new_dir_path = "\\".join(dir_list)
 
-    # File to read
-    file = new_dir_path + filename
-    # File to write
-    output = new_dir_path + "\TestText.txt"
+        file = new_dir_path + filename
+
+        output = new_dir_path + "\TestText.txt"
+    else:
+        # File to read
+        file = dir_path + filename
+        # File to write
+        output = dir_path + "\TestText.txt"
 
     # Open file
     with open(file, "r") as f:

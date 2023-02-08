@@ -12,7 +12,7 @@ Welcome to SciViPy's documentation!
 
    modules/bout_cartesian_convert.rst
    modules/crystal_vis_script.rst
-   modules/gif_maker.rst
+   modules/make_gif.rst
    modules/jorek_vis_script.rst
    modules/time_reader.rst
    modules/xyz_to_csv.rst

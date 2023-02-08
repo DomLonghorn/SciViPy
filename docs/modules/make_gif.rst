@@ -1,7 +1,7 @@
-gif\_maker module
+make_gif module
 =================
 
-.. automodule:: SciViPy.gif_maker
+.. automodule:: SciViPy.make_gif
    :members:
    :undoc-members:
    :show-inheritance:

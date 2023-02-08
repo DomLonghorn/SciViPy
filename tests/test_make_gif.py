@@ -1,5 +1,5 @@
-import shutil
 from pathlib import Path
+import shutil
 
 import pytest
 
@@ -9,7 +9,7 @@ from SciViPy import make_gif
 @pytest.fixture(scope="module")
 def make_gif_dir(tmp_path_factory):
     """
-    Copies test_data/make_gif_data to a new temp directory and returns the new path.
+    Copies test_data/make_gif to a new temp directory and returns the new path.
 
     As make_gif writes to the same directory it reads data from, we can't use the
     directory test_data/make_gif directly, as after the first run

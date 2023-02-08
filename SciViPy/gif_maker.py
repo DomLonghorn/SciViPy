@@ -7,41 +7,41 @@ that   the only accepted filetype is .png, although this is planned to be expand
 later updates.
 """
 
-# import required module
 import glob
 import imageio
+import imageio.v2 as imageio
 from tkinter.filedialog import askdirectory
 
+def Gif_Maker(filename, Duration=2, GIF_Name="/Jorek.gif"):
+    """Creates a gif based off a set of given .pngs
 
-def Gif_make():
+    This functions takes a directory and turns all .pngs within it into a gif with a set duration per slide.
+
+    Args:
+        filename:   This is the filepath for the directory which should contain .pngs to be created.
+        Duration:   This will set the duration for each frame within the gif. Default value is set to be 2.
+        GIF_name:   This is the name of the gif to be added to the directory witht the images.
+
+    Returns:
+        This function returns the created GIF in the directory specified for the images.
     """
-    Main function to execute the gif making procedure. Only accepts .png files.
-    On executing, prompts the user to select a folder to use.
-    
-    Saves a gif made up of the .png files found in the target directory into the
-    same directory.
-
-    Returns
-    =======
-    None
-    """
-    folder_dir = askdirectory(
-        title="Select Folder"
-    )  # shows dialog box and return the path
-    print(folder_dir)
-
-    # iterate over files in
-    # that directory
     imagesList = []
-    for images in glob.iglob(f"{folder_dir}/*"):
+    for images in glob.iglob(f"{filename}/*"):
 
         # check if the image ends with png
         if images.endswith(".png"):
             imagesList.append(images)
-            print(images)
     imagesList.sort()
 
-    with imageio.get_writer(folder_dir + "/Jorek.gif", mode="I") as writer:
+    with imageio.get_writer(filename + GIF_Name, mode="I", duration=Duration) as writer:
         for filename in imagesList:
             image = imageio.imread(filename)
             writer.append_data(image)
+
+if __name__ == "__main__":
+    # shows dialog box and returns the path
+    folder_dir = askdirectory(
+        title="Select Folder"
+    )
+
+    Gif_Maker(folder_dir)

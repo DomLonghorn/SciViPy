@@ -21,6 +21,7 @@ $ conda install -c conda-forge paraview
 SciViPy can then be installed using `pip`:
 
 ```bash
+$ python3 -m pip install --upgrade pip
 $ python3 -m pip install .
 ```
 

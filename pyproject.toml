@@ -27,6 +27,7 @@ dependencies = [
     "tk",
     "imageio",
     "xbout",
+    "fortranformat",
 ]
 
 [project.optional-dependencies]

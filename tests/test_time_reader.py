@@ -23,9 +23,10 @@ def test_time_reader(time_reader_dir):
     input_file = time_reader_dir / "input.txt"
     expected_file = time_reader_dir / "expected.txt"
     results_file = time_reader_dir / "results.txt"
-    time_reader(input_file, results_file, num_points=150, start=4000, end_index=607)
+    output_file = time_reader(input_file, results_file, num_points=150, end_index=607)
     # Ensure results.txt has been created
     assert results_file.exists()
+    assert output_file == results_file
     # Ensure results.txt and expected.txt match
     with open(expected_file) as f:
         expected = f.readlines()

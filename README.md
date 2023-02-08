@@ -21,20 +21,25 @@ $ conda install -c conda-forge paraview
 SciViPy can then be installed using `pip`:
 
 ```bash
-$ python3 -m pip install -e .
+$ python3 -m pip install .
 ```
 
 Note that you should NOT have `vtk` installed in your Python environment, as this will
 interfere with the version packaged with Paraview.
 
-Testing dependencies can also be installed using:
+Testing dependencies can be installed using:
 
 ```bash
 $ python3 -m pip install -e .[tests]
 ```
 
-Tests can then be run by calling `pytest` in the top-level directory. Similarly, to
-build the docs:
+Tests can then be run using `pytest`
+
+```bash
+$ python3 -m pytest tests
+```
+
+Similarly, to build the docs:
 
 ```bash
 $ python3 -m pip install -e .[docs]
@@ -43,7 +48,7 @@ $ make html
 ```
 
 Docs can then be viewed by opening
-`file:///path/to/your/stuff/SciViPy/docs/build/html/index.html` in a web browser.
+`file:///path/to/your/workspace/SciViPy/docs/build/html/index.html` in a web browser.
 
 ## Features
 
@@ -69,7 +74,7 @@ parameters can be modified to achieve desired outputs.
 ![CrystalVis](https://user-images.githubusercontent.com/64920607/191737728-f1614f16-05b6-4342-a626-0589d4fa47a5.png)
 
 
-### gif_maker
+### make_gif
 
 Takes a series of generated screenshots and outputs them into a GIF for easy
 visualisation of temporal data.

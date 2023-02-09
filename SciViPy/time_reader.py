@@ -20,24 +20,31 @@ def time_reader(path, num_points=150, end_index=607):
     with the specified number of points split equitemporally. This is useful when trying
     to create gifs from some simulated JOREK data.
     """
-    data = pd.read_fwf(path, names=("index", "time"), infer_nrows=end_index+1)
+    # Read data file
+    data = pd.read_fwf(
+        path,
+        names=("index", "time"),
+        nrows=end_index + 1,
+        infer_nrows=end_index + 1,
+    )
 
-    # TODO why start at 1 here? Should it be 0 to end_index-1?
-    startval = data["time"][1]
-    endval = data["time"][end_index]
+    # Get new evenly spaced timesteps
+    # TODO This starts at the second index and doesn't include the final one.
+    #      Is this intentional? If not, the following should fix it
+    # t = np.linspace(data["time"].iloc[0], data["time"].iloc[-1], num_points)
+    t_start = data["time"].iloc[1]
+    t_end = data["time"].iloc[-1]
+    t_step = (t_end - t_start) / num_points
+    t = np.arange(t_start, t_end, t_step)
 
-    # Get an equitemporal time step over a given number of points
-    timestep = (endval - startval) / num_points
+    # Get 2D array of differences between original times and new ones
+    diff = np.abs(data["time"].values - t[:, np.newaxis])
 
-    # Finds the value that's closest in the file to the given timestep and gives its val
-    output_indices = np.empty(num_points, dtype=int)
-    for i in range(num_points):
-        t_i = startval + timestep * i
-        closest_index = np.argmin(np.abs(data["time"] - t_i))
-        output_indices[i] = data["index"][closest_index]
+    # Find the indices at which diff is minimum
+    closest = np.argmin(diff, axis=1)
 
-    # Create and write to output file
-    return output_indices
+    # Match the closest indices with the new time steps and return
+    return pd.DataFrame({"index": data["index"].values[closest], "time": t})
 
 
 if __name__ == "__main__":
@@ -100,6 +107,6 @@ if __name__ == "__main__":
         end_index=args.range,
         num_points=args.num_points,
     )
+    # Write to file
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-    with open(args.output, "w") as f:
-        np.savetxt(f, results, fmt="%d")
+    results.to_csv(args.output)

@@ -17,4 +17,4 @@ def test_time_reader(time_reader_dir):
     results = time_reader(input_file, num_points=150, end_index=607)
     # Ensure results and expected.txt match
     expected = np.loadtxt(expected_file, dtype=int)
-    np.testing.assert_array_equal(expected, results)
+    np.testing.assert_array_equal(expected, results["index"])

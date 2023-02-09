@@ -22,12 +22,12 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     "numpy",
+    "pandas",
     "xarray",
     "matplotlib",
     "tk",
     "imageio",
     "xbout",
-    "fortranformat",
 ]
 
 [project.optional-dependencies]

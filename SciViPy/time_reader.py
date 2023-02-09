@@ -3,10 +3,10 @@ from pathlib import Path
 import argparse
 
 import numpy as np
-from fortranformat import FortranRecordReader
+import pandas as pd
 
 
-def time_reader(path, output, num_points=150, end_index=607):
+def time_reader(path, num_points=150, end_index=607):
     """
     Function which will read a file and return equidistant readings from values within
     the file.
@@ -20,35 +20,24 @@ def time_reader(path, output, num_points=150, end_index=607):
     with the specified number of points split equitemporally. This is useful when trying
     to create gifs from some simulated JOREK data.
     """
-    indices = []
-    times = []
-    fortran_reader = FortranRecordReader("(I12, ES24.15)")
-    with open(path) as f:
-        for line in f:
-            line_data = fortran_reader.read(line)
-            indices.append(line_data[0])
-            times.append(line_data[1])
-    times = np.array(times)
+    data = pd.read_fwf(path, names=("index", "time"), infer_nrows=end_index+1)
 
     # TODO why start at 1 here? Should it be 0 to end_index-1?
-    startval = times[1]
-    endval = times[end_index]
+    startval = data["time"][1]
+    endval = data["time"][end_index]
 
     # Get an equitemporal time step over a given number of points
     timestep = (endval - startval) / num_points
 
     # Finds the value that's closest in the file to the given timestep and gives its val
-    output_indices = []
+    output_indices = np.empty(num_points, dtype=int)
     for i in range(num_points):
-        time = startval + timestep * i
-        closest_idx = np.argmin(np.abs(times - time))
-        output_indices.append(indices[closest_idx])
+        t_i = startval + timestep * i
+        closest_index = np.argmin(np.abs(data["time"] - t_i))
+        output_indices[i] = data["index"][closest_index]
 
     # Create and write to output file
-    Path(output).parent.mkdir(parents=True, exist_ok=True)
-    with open(output, "w") as f:
-        np.savetxt(f, output_indices, fmt="%d")
-    return output
+    return output_indices
 
 
 if __name__ == "__main__":
@@ -106,9 +95,11 @@ if __name__ == "__main__":
         raise FileNotFoundError(args.path)
 
     # Run
-    time_reader(
+    results = time_reader(
         args.path,
-        args.output,
         end_index=args.range,
         num_points=args.num_points,
     )
+    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+    with open(args.output, "w") as f:
+        np.savetxt(f, results, fmt="%d")

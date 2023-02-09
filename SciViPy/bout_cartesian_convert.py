@@ -161,7 +161,6 @@ def bout_cartesian_convert(boutdataset, gridfilepath, outfile):
     for i in range(len(StringX)):
         for j in range(len(StringY)):
             for k in range(len(StringZ)):
-
                 Row = (
                     StringX[i]
                     + " , "

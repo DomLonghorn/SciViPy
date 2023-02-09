@@ -37,7 +37,6 @@ def MaxClip(
     ColourRange,
     opacity=0.05,
 ):
-
     """
     Sets the data to the correct view, with opacity and viewing only the scalar value
     wanted.
@@ -312,7 +311,6 @@ def FrameCreation(
 
 
 if __name__ == "__main__":
-
     # Files originally specified in this script:
     # mypath = "/home/user/Desktop/Data/Max Data/ConvertedData/"
     # finalShotPath =

@@ -25,6 +25,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         conda-channels: anaconda, conda-forge
     - name: Install paraview
+      run: |
         conda install paraview
     - name: Install dependencies
       run: |

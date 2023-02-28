@@ -64,7 +64,7 @@ def ScalarClip(reader, Scalar, ScaVal, ColourBy, opacity=0.5):
     clip.Scalars = ("points", Scalar)
     clip.Value = ScaVal
     clip.Invert = False
-    SetDisplayProperties(Opacity=opacity)
+    SetDisplayProperties(Opacity=0.5)
     SetDisplayProperties(ColorArrayName=ColourBy)
     display = Show(clip)
     ColorBy(display, ("POINTS", ColourBy))
@@ -153,7 +153,7 @@ def Stan(Reader, FilePath):
 
 
 def VisualisationScript(
-    filepath, Scalar, ScaVal, ColourBy, ShotPath, opacity=0.5, Reset=True
+    filepath, Scalar, ScaVal, ColourBy, ShotPath, Opacity=0.5, Reset=True
 ):
     """This script combines ScalarClip and StanScreenShot into one combined function
 
@@ -178,12 +178,7 @@ def VisualisationScript(
         print("success")
     else:
         print("failed")
-    display = ScalarClip(
-        reader,
-        Scalar,
-        ScaVal,
-        ColourBy,
-    )
+    display = ScalarClip(reader, Scalar, ScaVal, ColourBy, opacity=Opacity)
     StanScreenShot(ShotPath)
     print("Session finished")
     if Reset == True:

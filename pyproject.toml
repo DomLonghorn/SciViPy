@@ -1,0 +1,56 @@
+[project]
+name = "SciViPy"
+version = "0.1.0"
+description = "Data visualisation tools for UKAEA."
+readme = "README.md"
+authors = [
+    {name = "Dom Longhorn"},
+    {name = "Freddie Carlisle"},
+]
+license = {file = "license.md"}
+keywords = ["visualisation"]
+classifiers = [
+    "Programming Language :: Python",
+    "Development Status :: 3 - Alpha",
+    "Natural Language :: English",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "xarray",
+    "matplotlib",
+    "tk",
+    "imageio",
+    "xbout",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+]
+tests = [
+    "pytest",
+]
+
+[project.urls]
+Source = "https://github.com/DomLonghorn/SciViPy"
+Tracker = "https://github.com/DomLonghorn/SciViPy/issues"
+
+[build-system]
+requires = [
+    "setuptools >= 65.0",
+    "wheel >= 0.29.0",
+]
+build-backend = "setuptools.build_meta"
+
+# Customise package discovery
+# TODO rename/remove 'Testing', as it confuses setuptools
+[tool.setuptools.packages.find]
+include = ["SciViPy"]

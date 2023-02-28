@@ -10,8 +10,12 @@ Welcome to SciViPy's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   modules
-
+   modules/bout_cartesian_convert.rst
+   modules/crystal_vis_script.rst
+   modules/make_gif.rst
+   modules/jorek_vis_script.rst
+   modules/time_reader.rst
+   modules/xyz_to_csv.rst
 
 Indices and tables
 ==================

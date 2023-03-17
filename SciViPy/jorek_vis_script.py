@@ -6,7 +6,7 @@ from paraview.simple import *
 from paraview.servermanager import *
 
 
-def ScalarClip(reader, ScaVal, opacity=0.5, ColourBy="Te"):
+def scalar_clip(reader, ScaVal, opacity=0.5, ColourBy="Te"):
     """Once the clip has been applied, this edits the visuals of it"""
 
     clip = Clip(Input=reader)
@@ -23,7 +23,7 @@ def ScalarClip(reader, ScaVal, opacity=0.5, ColourBy="Te"):
     return display
 
 
-def StanScreenShot(FilePath, CameraPosition=[12, 0, 0]):
+def take_screenshot(FilePath, CameraPosition=[12, 0, 0]):
     """Saves the Screenshot by setting up a camera position for the active view"""
 
     myview = GetActiveView()
@@ -34,7 +34,7 @@ def StanScreenShot(FilePath, CameraPosition=[12, 0, 0]):
     return print("Screenshotted")
 
 
-def StanSaveState(FilePath):
+def save_state(FilePath):
     """Saves the state file"""
     SaveState(FilePath + ".pvsm")
 
@@ -42,7 +42,7 @@ def StanSaveState(FilePath):
 # Saves the Data from the specific clip #
 
 
-def StanSaveData(FilePath):
+def save_data(FilePath):
     """Saves the Data from the specific clip"""
     SaveData(
         FilePath + ".vtk",
@@ -50,11 +50,11 @@ def StanSaveData(FilePath):
     )
 
 
-def Stan(Reader, FilePath):
-    StanClip(Reader, FilePath)
-    StanScreenShot(FilePath)
-    StanSaveState(FilePath)
-    SaveData(FilePath)
+def clip_and_screenshot(Reader, FilePath):
+    scalar_clip(Reader, FilePath)
+    take_screenshot(FilePath)
+    save_state(FilePath)
+    save_data(FilePath)
 
 
 if __name__ == "__main__":

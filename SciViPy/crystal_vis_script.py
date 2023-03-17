@@ -31,11 +31,7 @@ from textwrap import dedent
 
 
 def MaxClip(
-    MyData,
-    ScaVal,
-    ScalarName,
-    ColourRange,
-    opacity=0.05,
+    MyData, ScaVal, ScalarName, ColourRange, opacity=0.05,
 ):
     """
     Sets the data to the correct view, with opacity and viewing only the scalar value
@@ -84,7 +80,7 @@ def MaxClip(
 # Turns the .CSV to actual points to be seen
 
 
-def PointsView(Data):
+def set_point_view(Data):
     """
     Creates 3D data points from .csv file
 
@@ -115,7 +111,7 @@ def PointsView(Data):
 # Colours the points based on a set range
 
 
-def MaxColour(points, ScalarName, Range=(0, 0.2), Preset="Inferno (matplotlib)"):
+def set_colour(points, ScalarName, Range=(0, 0.2), Preset="Inferno (matplotlib)"):
     """
     Colours the data within the paraview view.
 
@@ -332,9 +328,7 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "data_dir",
-        help="Path to directory containing .csv",
-        type=Path,
+        "data_dir", help="Path to directory containing .csv", type=Path,
     )
 
     parser.add_argument(
